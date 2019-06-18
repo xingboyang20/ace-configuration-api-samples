@@ -12,6 +12,7 @@ There are two samples:
 
 In order to run the examples, you need to:
 
+- Have [Node.js](https://nodejs.org/en/) installed.
 - Have an installation of **CLM Platform** running.
 - Have the iHear sample package published to the storage. Refer to CLM Platform documentation for instructions about how to do that.
 
