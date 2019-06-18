@@ -1,0 +1,9 @@
+.example-page {
+  background-color: white;
+  color: #333;
+  display: flex;
+  border-radius: 2px;
+  margin: 0 20px;
+  padding: 20px 40px;
+  min-height: calc(100vh - 90px);
+}

@@ -1,0 +1,9 @@
+.dropdown {
+  min-width: 350px;
+  width: 100%;
+  padding: 1px 0px;
+}
+
+.dropdown--incompatible {
+  background-color: #dedede;
+}

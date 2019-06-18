@@ -1,0 +1,28 @@
+.multivalued {
+  display: flex;
+  flex-direction: column;
+}
+
+.multivalued__options {
+  flex: 1;
+  display: flex;
+  padding-bottom: 6px;
+}
+
+.multivalued__options__title {
+  flex: 1;
+  margin-right: 16px;
+}
+
+.multivalued__option--incompatible {
+  color: #aaa;
+}
+
+multivalued__option > input[type='radio'] {
+  margin-top: -1px;
+  vertical-align: middle;
+}
+
+.multivalued__option {
+  margin-left: 6px;
+}
