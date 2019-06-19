@@ -4,8 +4,12 @@ import { showVariable } from '../utils/variable-utils';
 import './Section.css';
 
 /**
- * The `<Section>` component renders a section from the
+ * `<Section>` component that renders a section from the
  * configure response.
+ *
+ * A section is rendered by rendering a `<VariableLine>` for variable in
+ * the section.
+ *
  */
 export function Section({ section, onAssign, onUnassign }) {
   return (

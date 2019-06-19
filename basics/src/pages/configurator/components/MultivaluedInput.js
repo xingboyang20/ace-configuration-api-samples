@@ -2,6 +2,11 @@ import React from 'react';
 import classnames from 'classnames';
 import './MultivaluedInput.css';
 
+/**
+ * A single radio button in a `<MultivaluedOptions>` component.
+ *
+ *
+ */
 class MultivaluedOption extends React.Component {
   assigned(value, excluded) {
     return value && (excluded ? value.excluded.assigned : value.assigned);
@@ -76,9 +81,11 @@ function MultivaluedOptions({ variable, value, onAssign, onUnassign, text }) {
 }
 
 /**
- * Input component for variables that accepts multiple values.
- * Each a value can be "included/excluded", these options
- * are being renders as radio buttons.
+ * `<MultivalueInput>` component is used to render multiple assignable values
+ * for variables that accepts multiple assignments.
+ *
+ * Each a value can be "included/excluded" and each option is being renders as
+ * a radiobutton.
  */
 class MultivaluedInput extends React.Component {
   render() {

@@ -4,8 +4,8 @@ import './TextInput.css';
 import { getAssignedValue } from '../utils/variable-utils';
 
 /**
- * Controlled wrapper around `<input>`. Ensures `onChange` is
- * called the input field loose or when the `Enter` key is pressed
+ * Wrapper around `<input>`. Calls `onChange` prop
+ * when the input field loose or when the `Enter` key is pressed
  */
 class Input extends React.Component {
   constructor(props) {
@@ -75,7 +75,7 @@ function getInvalidMessage(variable) {
 }
 
 /**
- * <TextInput> component that understands the data from the `/configure`
+ * `<TextInput>` component that knows about the data from the `/configure`
  * API.
  */
 class TextInput extends React.Component {

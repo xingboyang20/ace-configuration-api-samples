@@ -4,7 +4,12 @@ import TextInput from './TextInput';
 import MultivaluedInput from './MultivaluedInput';
 
 /**
- * Render different "input" control dependent on variable type
+ * Render different "input" controls dependent on variable type.
+ *
+ * * `<MultivalidInput>` is rendered if `variable.allowMutipleAssignments` is true.
+ * * `<TextInput>` is rendered for number values with distinct value count greater than 25.
+ * * `<TextInput>` is rendered for string values with no distinct value count.
+ * * `<DropDown>` is rendered for everything else.
  */
 export default function VariableInput({ variable, onAssign, onUnassign }) {
   if (variable.allowMultipleAssignments) {

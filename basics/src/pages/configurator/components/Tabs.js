@@ -6,7 +6,7 @@ const tabClassName = (index, activeTabIndex) =>
   classnames('tabs__tab', { 'tabs__tab-active': index === activeTabIndex });
 
 /**
- * `<Tabs>` component renders tab items for each item in `tabs`
+ * `<Tabs>` component renders tab items for each item in `tabs` props.
  */
 const Tabs = ({ tabs, activeTabIndex, onTabChange, children }) => {
   return (
