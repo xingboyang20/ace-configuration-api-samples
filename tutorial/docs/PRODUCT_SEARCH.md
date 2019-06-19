@@ -92,4 +92,4 @@ const ProductDetails = ({ product }) => (
 );
 ```
 
-A product also has an `id` which you use in calls to the [Configure](Configure.md) API.
+A product also has an `id` which you use in calls to the [Configure](CONFIGURATOR.md) API.
