@@ -4,9 +4,9 @@ The configurator example shows how to create a small application that allows use
 
 The application we are building looks like this:
 
-![Product search sample](./configurator.gif)
+![Configurator sample](./configurator.gif)
 
-The code for the product search example is located at `src/examples/configurator/index.js`.
+The code for the configurator example is located at `src/examples/configurator/index.js`.
 
 The root component looks like this:
 
@@ -46,7 +46,7 @@ class Configurator extends React.Component {
     }
 
     if (!sections) {
-      return <Example>Loading…</Example>;
+      return <Example>Loadingâ€¦</Example>;
     }
     const activeSection = sections[activeTabIndex];
     return (
