@@ -1,4 +1,4 @@
-## Products API Sample
+## Configuration API Sample
 
 The configurator example shows how to create a small application that allows users to configure a product in a package on the CLM Platform.
 
