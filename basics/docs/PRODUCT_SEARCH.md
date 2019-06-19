@@ -6,7 +6,7 @@ The application we are building looks like this:
 
 ![Product search sample](./product-search.gif)
 
-The code for the product search example is located at `src/examples/product-search/index.js`.
+The code for the product search example is located at `src/pages/product-search/index.js`.
 
 The root component looks like this:
 

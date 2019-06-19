@@ -1,19 +1,19 @@
-# Tutorials
+# Basic examples
 
-Small example applications that illustrate how to build applications against CLM Platform
+These very basic examples that illustrate how to build applications against CLM Platform
 
-Examples include:
+This includes:
 
 - [Product Search](docs/PRODUCT_SEARCH.md)
 - [Configurator](docs/CONFIGURATOR.md)
 
 ## Getting started
 
-Before you run the tutorial, change the settings in the `.env` file to match your local setup of the CLM Platform:
+Before you run the applicatiom, change the settings in the `.env` file to match your local setup of the CLM Platform:
 
 - Change the `REACT_APP_API_URL` to the URL of your running configurator service.
 
-- Change the `REACT_APP_PACKAGE_PATH` to reference the package you want to use. The tutorial can use any valid and published VT package.
+- Change the `REACT_APP_PACKAGE_PATH` to reference the package you want to use. The application can use any valid and published VT package.
 
 For example:
 

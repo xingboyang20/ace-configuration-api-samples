@@ -7,11 +7,11 @@ import { assign, unassign } from './utils/assignment-utils';
 import './index.css';
 
 /**
- * Example of how to use the /configure api to create an interactive
+ * Example of how to use the `/configure` api to create an interactive
  * configurator.
  *
- * This `<Configurator>` component is the top level component of the interactive
- * configurator. It manages state and pushes state changes from the /configure
+ * The `<Configurator>` component is the top level component of the interactive
+ * configurator. It manages state and pushes state changes from the `/configure`
  * api down to sub component that renders the configuration result.
  *
  * The interactive configurator has the following structure.
@@ -117,8 +117,7 @@ class Configurator extends React.Component {
           <div>
             <p>To start the configurator specify a product id in the URL. </p>
             <p>
-              For examples{' '}
-              <a href="/configurator/IHEAR">/configurator/IHEAR</a>
+              For examples <a href="/configurator/IHEAR">/configurator/IHEAR</a>
             </p>
           </div>
         </Example>

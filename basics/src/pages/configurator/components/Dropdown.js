@@ -32,7 +32,7 @@ function Option({ value }) {
 export default class Dropdown extends React.Component {
   /**
    * When an option is selected in the `<Dropdown>` this handler function
-   * is called. If the option is the empty option we call `unAssign` otherwise
+   * is called. If the option is the empty option we call `onUnassign` otherwise
    * we call `onAssign` with the selected option value
    */
   handleOnChange = e => {

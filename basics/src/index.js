@@ -6,8 +6,8 @@ import TopNav from './components/TopNav';
 
 import Toc from './Toc';
 
-import ProductSearchExample from './examples/product-search';
-import ConfiguratorExample from './examples/configurator';
+import ProductSearchExample from './pages/product-search';
+import ConfiguratorExample from './pages/configurator';
 
 import './index.css';
 
