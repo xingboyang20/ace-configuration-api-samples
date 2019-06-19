@@ -3,12 +3,15 @@ import VariableLine from './VariableLine';
 import { showVariable } from '../utils/variable-utils';
 import './Section.css';
 
-export const Section = ({ section, onAssign, onUnassign }) => (
-  <div>
-    <h3 className="section__header">{section.name}</h3>
-    {section.variables
-      .filter(showVariable)
-      .map(variable => (
+/**
+ * The `<Section>` component renders a section from the
+ * configure response.
+ */
+export function Section({ section, onAssign, onUnassign }) {
+  return (
+    <div>
+      <h3 className="section__header">{section.name}</h3>
+      {section.variables.filter(showVariable).map(variable => (
         <VariableLine
           key={variable.id}
           variable={variable}
@@ -16,5 +19,6 @@ export const Section = ({ section, onAssign, onUnassign }) => (
           onUnassign={onUnassign}
         />
       ))}
-  </div>
-);
+    </div>
+  );
+}

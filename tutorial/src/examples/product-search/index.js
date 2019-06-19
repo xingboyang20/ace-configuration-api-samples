@@ -137,7 +137,7 @@ const ProductList = ({ products }) => {
 };
 
 /**
- * Example of how to use the product search endpoint to find
+ * Example of how to use the product search api to find
  * products in a package.
  */
 class ProductSearch extends React.Component {

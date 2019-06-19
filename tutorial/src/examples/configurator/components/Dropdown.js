@@ -8,7 +8,10 @@ import './Dropdown.css';
 
 const NO_VALUE = 'NO_VALUE';
 
-const Option = ({ value }) => {
+/**
+ * Single option in a `<Dropdown>`.
+ */
+function Option({ value }) {
   const { name } = value;
 
   const className = classnames({
@@ -20,22 +23,25 @@ const Option = ({ value }) => {
       {name}
     </option>
   );
-};
+}
 
+/**
+ * A `<Dropdown>` component that knows about the data from
+ * the `/configure` API
+ */
 export default class Dropdown extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.handleOnChange = this.handleOnChange.bind(this);
-  }
-
-  handleOnChange(e) {
+  /**
+   * When an option is selected in the `<Dropdown>` this handler function
+   * is called. If the option is the empty option we call `unAssign` otherwise
+   * we call `onAssign` with the selected option value
+   */
+  handleOnChange = e => {
     const { variable, onAssign, onUnassign } = this.props;
 
     const { value } = e.target;
 
     value === NO_VALUE ? onUnassign(variable.id) : onAssign(variable.id, value);
-  }
+  };
 
   render() {
     const { variable } = this.props;

@@ -7,12 +7,12 @@ import { assign, unassign } from './utils/assignment-utils';
 import './index.css';
 
 /**
- * Example of how to use the /configure endpoint to create an interactive
+ * Example of how to use the /configure api to create an interactive
  * configurator.
  *
  * This `<Configurator>` component is the top level component of the interactive
  * configurator. It manages state and pushes state changes from the /configure
- * endpoint down to sub component that renders the configuration result.
+ * api down to sub component that renders the configuration result.
  *
  * The interactive configurator has the following structure.
  *
@@ -46,6 +46,13 @@ class Configurator extends React.Component {
 
   handleActiveTabChange = activeTabIndex => this.setState({ activeTabIndex });
 
+  /**
+   * Called when ever the configuration needs to be recalculated.
+   *
+   * That includes:
+   *  * When this component is mounted (to get initial configuration)
+   *  * When users assign/unassign values in the configurator
+   */
   configure = async assignments => {
     const { productId } = this.props.match.params;
     const packagePath = process.env.REACT_APP_PACKAGE_PATH;
@@ -60,6 +67,8 @@ class Configurator extends React.Component {
         }
       });
 
+      // update the state when new sections with the result from the `/configure`
+      // API
       this.setState({ sections: result.sections, error: null });
     } catch (e) {
       if (e.type === 'CannotLoadPackage') {
@@ -70,6 +79,11 @@ class Configurator extends React.Component {
     }
   };
 
+  /**
+   * Called when users make an assignment.
+   *
+   * Gets passed down to subcomponents link <Dropdown>
+   */
   handleOnAssign = (variableId, value, exclude, multivalued) => {
     const newAssignments = assign(
       this.assignments,
@@ -80,6 +94,11 @@ class Configurator extends React.Component {
     this.configure(newAssignments);
   };
 
+  /**
+   * Called when users make unassigns a value.
+   *
+   * Gets passed down to subcomponents link <Dropdown>
+   */
   handleOnUnassign = (variableId, value, exclude) => {
     const newAssignments = unassign(this.assignments, {
       variableId,
@@ -110,7 +129,6 @@ class Configurator extends React.Component {
     if (error) {
       return <Example>{error}</Example>;
     }
-
     if (!sections) {
       return <Example>Loading…</Example>;
     }

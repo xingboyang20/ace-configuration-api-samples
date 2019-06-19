@@ -3,7 +3,10 @@ import Dropdown from './Dropdown';
 import TextInput from './TextInput';
 import MultivaluedInput from './MultivaluedInput';
 
-let VariableInput = ({ variable, onAssign, onUnassign }) => {
+/**
+ * Render different "input" control dependent on variable type
+ */
+export default function VariableInput({ variable, onAssign, onUnassign }) {
   if (variable.allowMultipleAssignments) {
     return (
       <MultivaluedInput
@@ -34,6 +37,4 @@ let VariableInput = ({ variable, onAssign, onUnassign }) => {
   return (
     <Dropdown variable={variable} onAssign={onAssign} onUnassign={onUnassign} />
   );
-};
-
-export default VariableInput;
+}

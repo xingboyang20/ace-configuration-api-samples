@@ -18,7 +18,7 @@ class ServerError extends Error {
 }
 
 /**
- * Wraps fetch function with correct
+ * Wraps fetch function and setup
  *
  * - Http headers
  * - Setup cors

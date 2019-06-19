@@ -1,4 +1,9 @@
 /**
+ * Utilities for dealing with assignments which are input
+ * to the `/configure` API
+ */
+
+/**
  * Are two assignments equal
  */
 const assignmentEq = (as1, as2) => {

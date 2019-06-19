@@ -9,21 +9,45 @@ import {
 } from '../utils/variable-utils';
 import './VariableLine.css';
 
-const UnassignButton = ({ variable, onUnassign }) => (
-  <IconButton
-    style={{ padding: '5px 0 0 4px' }}
-    title={`Remove assignment to ${variable.name}`}
-    onClick={() => onUnassign(variable.id)}
-  >
-    <Clear width="12px" height="12px" />
-  </IconButton>
-);
+/**
+ * Components that can render a "line" in the Configurator.
+ * A line consist of
+ *
+ * * The variable name
+ * * The Control for assigning values, e.g. <Dropdown>
+ * * An Unassign button
+ */
 
+/**
+ * Button for unassigning all values from a variables
+ */
+function UnassignButton({ variable, onUnassign }) {
+  return (
+    <IconButton
+      style={{ padding: '5px 0 0 4px' }}
+      title={`Remove assignment to ${variable.name}`}
+      onClick={() => onUnassign(variable.id)}
+    >
+      <Clear width="12px" height="12px" />
+    </IconButton>
+  );
+}
+
+/**
+ * Render a (*)
+ */
 const RequiredMark = () => <strong title="Required">(*)</strong>;
 
 const issuesToString = (issues = []) => issues.map(i => i.message).join('\n');
 
-const VariableLine = ({ variable, onAssign, onUnassign }) => {
+/**
+ * `<VariableLine>` component renders
+ *
+ * * The variable name
+ * * The Control for assigning values, e.g. <Dropdown>
+ * * An Unassign button
+ */
+function VariableLine({ variable, onAssign, onUnassign }) {
   const className = classnames('variable-line', {
     VariableLine__invalid: variable.issues
   });
@@ -61,6 +85,6 @@ const VariableLine = ({ variable, onAssign, onUnassign }) => {
       </div>
     </div>
   );
-};
+}
 
 export default VariableLine;

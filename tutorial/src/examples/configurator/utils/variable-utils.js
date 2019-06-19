@@ -1,4 +1,9 @@
 /**
+ * Utilities for interacting with `variables` from the
+ * `/configure` resoponse
+ */
+
+/**
  * Get all values for `variable` that have a state.
  *
  * If `variable.allowMultipleAssignments` then returned array contains both

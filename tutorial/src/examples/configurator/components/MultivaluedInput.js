@@ -3,12 +3,6 @@ import classnames from 'classnames';
 import './MultivaluedInput.css';
 
 class MultivaluedOption extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.handleOnChange = this.handleOnChange.bind(this);
-  }
-
   assigned(value, excluded) {
     return value && (excluded ? value.excluded.assigned : value.assigned);
   }
@@ -19,14 +13,14 @@ class MultivaluedOption extends React.Component {
     );
   }
 
-  handleOnChange() {
+  handleOnChange = () => {
     const { onAssign, onUnassign, variable, value, excluded } = this.props;
     if (this.assigned(value, excluded) === 'byUser') {
       onUnassign(variable.id, value.value, excluded, true);
     } else {
       onAssign(variable.id, value.value, excluded, true);
     }
-  }
+  };
 
   render() {
     const { value, excluded } = this.props;
@@ -51,14 +45,8 @@ class MultivaluedOption extends React.Component {
   }
 }
 
-const MultivaluedOptions = ({
-  variable,
-  value,
-  onAssign,
-  onUnassign,
-  text
-}) => {
-  var { name } = value;
+function MultivaluedOptions({ variable, value, onAssign, onUnassign, text }) {
+  const { name } = value;
 
   return (
     <div className="multivalued__options">
@@ -85,8 +73,13 @@ const MultivaluedOptions = ({
       />
     </div>
   );
-};
+}
 
+/**
+ * Input component for variables that accepts multiple values.
+ * Each a value can be "included/excluded", these options
+ * are being renders as radio buttons.
+ */
 class MultivaluedInput extends React.Component {
   render() {
     const { variable, onAssign, onUnassign, text } = this.props;

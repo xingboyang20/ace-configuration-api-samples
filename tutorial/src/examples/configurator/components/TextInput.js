@@ -3,6 +3,10 @@ import classnames from 'classnames';
 import './TextInput.css';
 import { getAssignedValue } from '../utils/variable-utils';
 
+/**
+ * Controlled wrapper around `<input>`. Ensures `onChange` is
+ * called the input field loose or when the `Enter` key is pressed
+ */
 class Input extends React.Component {
   constructor(props) {
     super(props);
@@ -51,18 +55,35 @@ class Input extends React.Component {
   }
 }
 
-class TextInput extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.handleOnChange = this.handleOnChange.bind(this);
+/**
+ * Collect and format a message for invalid assignments
+ */
+function getInvalidMessage(variable) {
+  let message = '';
+  if (variable.removedAssignment) {
+    let availableValues = variable.values
+      .filter(v => !v.incompatible)
+      .map(v => v.value);
+    let displayValues = availableValues.slice(0, 10).join(', ');
+    let value = variable.removedAssignment.value;
+    if (availableValues.length > 10) {
+      displayValues = displayValues.concat(', ...');
+    }
+    message = `${value} is not valid. Available values are [${displayValues}]`;
   }
+  return message;
+}
 
-  handleOnChange(value) {
+/**
+ * <TextInput> component that understands the data from the `/configure`
+ * API.
+ */
+class TextInput extends React.Component {
+  handleOnChange = value => {
     const { variable, onAssign, onUnassign } = this.props;
 
     value === '' ? onUnassign(variable.id) : onAssign(variable.id, value);
-  }
+  };
 
   render() {
     const { variable } = this.props;
@@ -72,23 +93,9 @@ class TextInput extends React.Component {
       'input-removed': variable.removedAssignment
     });
 
-    let message = '';
-    if (variable.removedAssignment) {
-      let availableValues = variable.values
-        .filter(v => !v.incompatible)
-        .map(v => v.value);
+    const message = getInvalidMessage(variable);
 
-      let displayValues = availableValues.slice(0, 10).join(', ');
-      let value = variable.removedAssignment.value;
-
-      if (availableValues.length > 10) {
-        displayValues = displayValues.concat(', ...');
-      }
-
-      message = `${value} is not valid. Available values are [${displayValues}]`;
-    }
-
-    let displayValue = variable.removedAssignment
+    const displayValue = variable.removedAssignment
       ? variable.removedAssignment.value
       : assignedValue;
 
