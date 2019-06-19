@@ -4,7 +4,7 @@ The products search example shows how to create a small application that allows 
 
 The application we are building looks like this:
 
-![Product search sample](./product-search.png)
+![Product search sample](./product-search.gif)
 
 The code for the product search example is located at `src/examples/product-search/index.js`.
 
