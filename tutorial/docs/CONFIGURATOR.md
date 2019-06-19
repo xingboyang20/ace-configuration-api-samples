@@ -1,6 +1,6 @@
 ## Products API Sample
 
-The products search example shows how to create a small application that allows users to configure a product in a package on the CLM Platform.
+The configurator example shows how to create a small application that allows users to configure a product in a package on the CLM Platform.
 
 The application we are building looks like this:
 
