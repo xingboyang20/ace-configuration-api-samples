@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Section } from './components/Section';
 import Example from '../Example';
 import Tabs from './components/Tabs';
@@ -99,7 +99,7 @@ class Configurator extends React.Component {
             <p>To start the configurator specify a product id in the URL. </p>
             <p>
               For examples{' '}
-              <a href="/configurator/TSHIRT2">/configurator/TSHIRT2</a>
+              <a href="/configurator/IHEAR">/configurator/IHEAR</a>
             </p>
           </div>
         </Example>

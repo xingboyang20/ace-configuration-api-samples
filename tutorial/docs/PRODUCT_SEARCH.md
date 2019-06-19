@@ -4,7 +4,7 @@ The products search example shows how to create a small application that allows 
 
 The application we are building looks like this:
 
-![Product search sample](./product-search.png)
+![Product search sample](./product-search.gif)
 
 The code for the product search example is located at `src/examples/product-search/index.js`.
 
@@ -40,9 +40,9 @@ class ProductSearch extends React.Component {
 }
 ```
 
-To call the products api we'll use the function defined in `./api/products.js` file.
+To call the products api we'll use the function defined in the `./api/products.js` file.
 
-The `handleSearch` function is called when users clicks the search button. It calls the API and updates the local state with the returned products. These products are passed to the `ProductList` component. The `ProductList` component renders a summary of each product.
+The `handleSearch` function is called when a user clicks the search button. It calls the API and updates the local state with the returned products. These products are passed to the `ProductList` component. The `ProductList` component renders a summary of each product.
 
 ```jsx
 function ProductSummary({ product, showDetails, onToggleDetails }) {
@@ -77,7 +77,7 @@ function ProductSummary({ product, showDetails, onToggleDetails }) {
 }
 ```
 
-Each product has a name, a description, flag indicating if it is configurable and a list of properties. The properties are rendered by the `ProductDetails` component.
+Each product has a name, a description, a flag indicating if it is configurable, and a list of properties. The properties are rendered by the `ProductDetails` component.
 
 ```jsx
 const ProductDetails = ({ product }) => (
@@ -92,4 +92,4 @@ const ProductDetails = ({ product }) => (
 );
 ```
 
-A product also has an `id` which you use in calls to the [Configure](Configure.md) API.
+A product also has an `id` which you use in calls to the [Configure](CONFIGURATOR.md) API.
