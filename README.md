@@ -6,7 +6,7 @@ There are two samples:
 
 - **[Tutorials](tutorial/README.md)** bite-size examples that walk you through the use of each of the CLM Platform APIs.
 
-- **[iHear](tutorial/README.md)** larger app that mimics a webshop selling hearing aids.
+- **[iHear](ihear/README.md)** larger app that mimics a webshop selling hearing aids.
 
 ## Prerequisites
 
