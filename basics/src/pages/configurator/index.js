@@ -2,7 +2,7 @@
 import { Section } from './components/Section';
 import Page from '../../components/Page';
 import Tabs from './components/Tabs';
-import configure from '../../api/configure';
+import configureAPI from '../../api/configure';
 import { assign, unassign } from './utils/assignment-utils';
 import './index.css';
 
@@ -47,9 +47,8 @@ class Configurator extends React.Component {
   handleActiveTabChange = activeTabIndex => this.setState({ activeTabIndex });
 
   /**
-   * Called when ever the configuration needs to be recalculated.
+   * Called when the configuration needs to be recalculated.
    *
-   * That includes:
    *  * When this component is mounted (to get initial configuration)
    *  * When users assign/unassign values in the configurator
    */
@@ -58,7 +57,7 @@ class Configurator extends React.Component {
     const packagePath = process.env.REACT_APP_PACKAGE_PATH;
 
     try {
-      const result = await configure({
+      const result = await configureAPI({
         packagePath,
         date: new Date(),
         line: {
@@ -67,8 +66,8 @@ class Configurator extends React.Component {
         }
       });
 
-      // update the state when new sections with the result from the `/configure`
-      // API
+      // update the state when new sections with the
+      // result from the `/configure` API
       this.setState({
         sections: result.sections,
         removedAssignments: result.removedAssignments,
@@ -77,7 +76,9 @@ class Configurator extends React.Component {
     } catch (e) {
       if (e.type === 'CannotLoadPackage') {
         this.setState({
-          error: `Product with id '${productId} doesn't exist in package with path '${packagePath}'`
+          error:
+            `Product with id '${productId} doesn't exist ` +
+            `in package with path '${packagePath}'`
         });
       }
     }
@@ -149,17 +150,8 @@ class Configurator extends React.Component {
             onTabChange={this.handleActiveTabChange}
             activeTabIndex={activeTabIndex}
           >
-            {activeSection.sections.map(subsection => (
-              <Section
-                section={subsection}
-                key={subsection.id}
-                onAssign={this.handleOnAssign}
-                onUnassign={this.handleOnUnassign}
-                removedAssignments={removedAssignments}
-              />
-            ))}
             <Section
-              section={{ variables: activeSection.variables }}
+              section={activeSection}
               onAssign={this.handleOnAssign}
               onUnassign={this.handleOnUnassign}
               removedAssignments={removedAssignments}

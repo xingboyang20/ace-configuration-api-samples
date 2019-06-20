@@ -20,15 +20,17 @@ export function Section({
 }) {
   const visibleVariables = section.variables.filter(showVariable);
 
-  if (visibleVariables.length === 0) {
+  if (visibleVariables.length === 0 && section.sections.length === 0) {
     return null;
   }
 
   return (
     <section>
-      <header className={`section__header section__header__level${0}`}>
-        {section.name}
-      </header>
+      {level > 0 && (
+        <header className={`section__header section__header__level${level}`}>
+          {section.name}
+        </header>
+      )}
       {visibleVariables.map(variable => (
         <VariableLine
           key={variable.id}

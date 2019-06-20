@@ -36,9 +36,27 @@ function UnassignButton({ variable, onUnassign }) {
 /**
  * Render a (*)
  */
-const RequiredMark = () => <strong title="Required">(*)</strong>;
+const RequiredMark = ({ variable }) => {
+  if (isRequiredWithoutAssignment(variable)) {
+    return <strong title="Required">(*)</strong>;
+  }
+  return null;
+};
 
-const issuesToString = (issues = []) => issues.map(i => i.message).join('\n');
+/**
+ * Render any potential issues for a variable
+ */
+function Issues({ variable }) {
+  if (!variable.issues) {
+    return null;
+  }
+  const issueString = variable.issues.map(i => i.message).join('\n');
+  return (
+    <div className="variable-line__invalid-mark" title={issueString}>
+      <Error width={16} height={16} />
+    </div>
+  );
+}
 
 /**
  * `<VariableLine>` component renders
@@ -55,21 +73,8 @@ function VariableLine({ variable, removedAssignments, onAssign, onUnassign }) {
   return (
     <div className={className}>
       <div className="variable-line__text">
-        {isRequiredWithoutAssignment(variable) ? (
-          <span>
-            {variable.name} <RequiredMark />
-          </span>
-        ) : (
-          <span>{variable.name}</span>
-        )}
-        {variable.issues && (
-          <div
-            className="variable-line__invalid-mark"
-            title={issuesToString(variable.issues)}
-          >
-            <Error width={16} height={16} />
-          </div>
-        )}
+        {variable.name} <RequiredMark variable={variable} />
+        <Issues variable={variable} />
       </div>
       <div className="variable-line__input">
         <VariableInput

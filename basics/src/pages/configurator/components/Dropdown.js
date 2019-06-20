@@ -6,7 +6,8 @@ import {
 } from '../utils/variable-utils';
 import './Dropdown.css';
 
-const NO_VALUE = 'NO_VALUE';
+const NO_VALUE_VALUE = 'NO_VALUE';
+const NO_VALUE = { value: NO_VALUE_VALUE };
 
 /**
  * Single option in a `<Dropdown>`.
@@ -40,21 +41,19 @@ export default class Dropdown extends React.Component {
 
     const { value } = e.target;
 
-    value === NO_VALUE ? onUnassign(variable.id) : onAssign(variable.id, value);
+    value === NO_VALUE_VALUE
+      ? onUnassign(variable.id)
+      : onAssign(variable.id, value);
   };
 
   render() {
     const { variable } = this.props;
-    const assignedValue = (
-      getAssignedValue(variable) || {
-        value: NO_VALUE
-      }
-    ).value;
+    const assignedValue = getAssignedValue(variable) || NO_VALUE;
 
     return (
       <select
         className="dropdown"
-        value={assignedValue}
+        value={assignedValue.value}
         onChange={this.handleOnChange}
       >
         {!hasSystemAssignedValue(variable) && (

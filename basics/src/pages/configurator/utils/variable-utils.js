@@ -1,6 +1,6 @@
 /**
  * Utilities for interacting with `variables` from the
- * `/configure` resoponse
+ * `/configure` response
  */
 
 /**
