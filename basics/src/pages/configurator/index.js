@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import { Section } from './components/Section';
-import Example from '../../components/Example';
+import Page from '../../components/Page';
 import Tabs from './components/Tabs';
 import configure from '../../api/configure';
 import { assign, unassign } from './utils/assignment-utils';
@@ -113,7 +113,7 @@ class Configurator extends React.Component {
     const { productId } = this.props.match.params;
     if (!productId) {
       return (
-        <Example>
+        <Page>
           <div>
             <h2>Product id is missing</h2>
             <p>
@@ -125,20 +125,20 @@ class Configurator extends React.Component {
               <a href="/products">product search</a> to find one
             </p>
           </div>
-        </Example>
+        </Page>
       );
     }
 
     const { sections, activeTabIndex, error } = this.state;
     if (error) {
-      return <Example>{error}</Example>;
+      return <Page>{error}</Page>;
     }
     if (!sections) {
-      return <Example>Loading…</Example>;
+      return <Page>Loading…</Page>;
     }
     const activeSection = sections[activeTabIndex];
     return (
-      <Example>
+      <Page>
         <div className="configurator">
           <Tabs
             tabs={sections.map(section => section.name)}
@@ -160,7 +160,7 @@ class Configurator extends React.Component {
             />
           </Tabs>
         </div>
-      </Example>
+      </Page>
     );
   }
 }

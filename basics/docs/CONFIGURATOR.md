@@ -129,3 +129,27 @@ handleOnUnassign = (variableId, value, exclude) => {
   this.configure(newAssignments);
 };
 ```
+
+All the state management happens at the root component. This state and state manipulation functions are passed down to child components. That happens in the render function, here we render some tabs based on the `sections` from the configurator response. For the `activeSection` we render a `<Section>` component where we pass the `handleOnAssign` and `handleOnUnassign` function such that the child components can call these has the user makes assignments.
+
+```jsx
+<Tabs
+  tabs={sections.map(section => section.name)}
+  onTabChange={this.handleActiveTabChange}
+  activeTabIndex={activeTabIndex}
+>
+  {activeSection.sections.map(subsection => (
+    <Section
+      section={subsection}
+      key={subsection.id}
+      onAssign={this.handleOnAssign}
+      onUnassign={this.handleOnUnassign}
+    />
+  ))}
+  <Section
+    section={{ variables: activeSection.variables }}
+    onAssign={this.handleOnAssign}
+    onUnassign={this.handleOnUnassign}
+  />
+</Tabs>
+```

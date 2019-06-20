@@ -33,3 +33,5 @@ And start the application with
 ```
 npm start
 ```
+
+This project is created with [Create React App](https://facebook.github.io/create-react-app/) their documentation has a lot valuable information about topics like: _Adding styles and assets_, _Deployment_, _Editor Setup_ etc.

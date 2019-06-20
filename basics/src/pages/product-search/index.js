@@ -1,5 +1,5 @@
 import React from 'react';
-import Example from '../../components/Example';
+import Page from '../../components/Page';
 import products from '../../api/products';
 import './index.css';
 
@@ -163,12 +163,12 @@ class ProductSearch extends React.Component {
     const { isSearching, products } = this.state;
 
     return (
-      <Example>
+      <Page>
         <div className="product-search">
           <SearchInput isSearching={isSearching} onSearch={this.handleSearch} />
           {isSearching ? 'Searching...' : <ProductList products={products} />}
         </div>
-      </Example>
+      </Page>
     );
   }
 }
