@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import { Section } from './components/Section';
-import Example from '../Example';
+import Example from '../../components/Example';
 import Tabs from './components/Tabs';
 import configure from '../../api/configure';
 import { assign, unassign } from './utils/assignment-utils';
@@ -115,9 +115,14 @@ class Configurator extends React.Component {
       return (
         <Example>
           <div>
-            <p>To start the configurator specify a product id in the URL. </p>
+            <h2>Product id is missing</h2>
             <p>
-              For examples <a href="/configurator/IHEAR">/configurator/IHEAR</a>
+              To start the configurator specify a product id in the URL, for
+              example <a href="/configurator/IHEAR">/configurator/IHEAR</a>
+            </p>
+            <p>
+              If you don't know any product id, use the{' '}
+              <a href="/products">product search</a> to find one
             </p>
           </div>
         </Example>
@@ -145,6 +150,7 @@ class Configurator extends React.Component {
                 section={subsection}
                 key={subsection.id}
                 onAssign={this.handleOnAssign}
+                onUnassign={this.handleOnUnassign}
               />
             ))}
             <Section

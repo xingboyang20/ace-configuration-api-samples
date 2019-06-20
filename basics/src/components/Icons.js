@@ -24,14 +24,21 @@ export const Error = ({ width = '24px', height = '24px' }) => (
 
 export const Clear = ({ width = '24px', height = '24px' }) => (
   <svg width={width} height={height} stroke="currentColor" viewBox="0 0 24 24">
-    <g
-      fill="none"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeMiterlimit="10"
-    >
-      <circle cx="12.016" cy="12" r="11.5" />
-      <path d="M3.884 3.869l16.263 16.263M20.147 3.869l-16.263 16.262" />
+    <g transform="matrix(1,0,0,1,0,0)">
+      <path
+        d="M 4.5,19.5l15-15"
+        fill="none"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M 4.5,4.5l15,15"
+        fill="none"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </g>
   </svg>
 );

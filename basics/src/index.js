@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Router } from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import createHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 import TopNav from './components/TopNav';
 
 import Toc from './Toc';
@@ -11,7 +11,7 @@ import ConfiguratorExample from './pages/configurator';
 
 import './index.css';
 
-const history = createHistory();
+const history = createBrowserHistory();
 
 /**
  * The application Root component which provides routing for authentication

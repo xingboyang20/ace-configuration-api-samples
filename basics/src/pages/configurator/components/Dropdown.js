@@ -60,8 +60,8 @@ export default class Dropdown extends React.Component {
         {!hasSystemAssignedValue(variable) && (
           <option key={NO_VALUE} value={NO_VALUE} />
         )}
-        {variable.values.map(value => (
-          <Option key={value.value} value={value} />
+        {variable.values.map((value, i) => (
+          <Option key={`${value.value}__${i}`} value={value} />
         ))}
       </select>
     );

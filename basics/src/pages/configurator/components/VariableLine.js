@@ -19,7 +19,7 @@ import './VariableLine.css';
  */
 
 /**
- * Button for unassigning all values from a variables
+ * Button for un assigning all values from a variables
  */
 function UnassignButton({ variable, onUnassign }) {
   return (

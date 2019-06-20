@@ -1,5 +1,5 @@
 import React from 'react';
-import Example from '../Example';
+import Example from '../../components/Example';
 import products from '../../api/products';
 import './index.css';
 

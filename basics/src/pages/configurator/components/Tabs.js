@@ -10,7 +10,7 @@ const tabClassName = (index, activeTabIndex) =>
  */
 const Tabs = ({ tabs, activeTabIndex, onTabChange, children }) => {
   return (
-    <React.Fragment>
+    <>
       <div className="tabs">
         {tabs.map((tab, index) => (
           <button
@@ -23,7 +23,7 @@ const Tabs = ({ tabs, activeTabIndex, onTabChange, children }) => {
         ))}
       </div>
       {children}
-    </React.Fragment>
+    </>
   );
 };
 
