@@ -4,9 +4,9 @@ This repository contains examples of how to use the CLM Platform Configuration A
 
 There are two samples:
 
-- **[Tutorials](tutorial/README.md)** bite-size examples that walk you through the use of each of the CLM Platform APIs.
+- **[Basic](basics/README.md)** a basic application that walk you through the use of each of the CLM Platform APIs.
 
-- **[iHear](ihear/README.md)** larger app that mimics a webshop selling hearing aids.
+- **[iHear](ihear/README.md)** larger application that mimics a webshop selling hearing aids.
 
 ## Prerequisites
 
