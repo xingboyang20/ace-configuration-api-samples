@@ -1,5 +1,5 @@
 .text-input {
-  min-width: 350px;
+  width: 100%;
 }
 
 .input {
@@ -9,18 +9,19 @@
 }
 
 .input-removed {
-  border: 1px solid #a94442;
+  border: 1px solid #ffc9c9;
+  background-color: #ffd7d7;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   outline-offset: 0px;
   -webkit-appearance: textfield;
 }
 
 .input-removed:focus {
-  border-color: #843534;
+  border-color: #f73f32;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 2px #ce8483;
   outline: 0;
 }
 
-.input--help {
-  color: #843534;
+.text-input--help {
+  color: #f73f32;
 }

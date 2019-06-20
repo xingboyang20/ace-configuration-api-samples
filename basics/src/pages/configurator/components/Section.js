@@ -11,18 +11,43 @@ import './Section.css';
  * the section.
  *
  */
-export function Section({ section, onAssign, onUnassign }) {
+export function Section({
+  section,
+  onAssign,
+  onUnassign,
+  removedAssignments,
+  level = 0
+}) {
+  const visibleVariables = section.variables.filter(showVariable);
+
+  if (visibleVariables.length === 0) {
+    return null;
+  }
+
   return (
-    <div>
-      <h3 className="section__header">{section.name}</h3>
-      {section.variables.filter(showVariable).map(variable => (
+    <section>
+      <header className={`section__header section__header__level${0}`}>
+        {section.name}
+      </header>
+      {visibleVariables.map(variable => (
         <VariableLine
           key={variable.id}
           variable={variable}
           onAssign={onAssign}
           onUnassign={onUnassign}
+          removedAssignments={removedAssignments}
         />
       ))}
-    </div>
+      {(section.sections || []).map(subSection => (
+        <Section
+          key={`${section.id}__${subSection.id}`}
+          section={subSection}
+          onAssign={onAssign}
+          onUnassign={onUnassign}
+          removedAssignments={removedAssignments}
+          level={level + 1}
+        />
+      ))}
+    </section>
   );
 }

@@ -58,25 +58,31 @@ class Input extends React.Component {
 /**
  * Collect and format a message for invalid assignments
  */
-function getInvalidMessage(variable) {
+function getInvalidMessage(variable, removedAssignments) {
+  console.log(removedAssignments);
+  const removedAssignment = removedAssignments.variableAssignments.find(
+    ra => ra.variable.id === variable.id
+  );
   let message = '';
-  if (variable.removedAssignment) {
+  if (removedAssignment) {
     let availableValues = variable.values
       .filter(v => !v.incompatible)
       .map(v => v.value);
     let displayValues = availableValues.slice(0, 10).join(', ');
-    let value = variable.removedAssignment.value;
+    let value = removedAssignment.value;
     if (availableValues.length > 10) {
       displayValues = displayValues.concat(', ...');
     }
-    message = `${value} is not valid. Available values are [${displayValues}]`;
+    message = `${
+      value.value
+    } is not valid. Available values are [${displayValues}]`;
   }
   return message;
 }
 
 /**
- * `<TextInput>` component that knows about the data from the `/configure`
- * API.
+ * `<TextInput>` component that knows about the data from the
+ *  `/configure` API.
  */
 class TextInput extends React.Component {
   handleOnChange = value => {
@@ -86,15 +92,13 @@ class TextInput extends React.Component {
   };
 
   render() {
-    const { variable } = this.props;
+    const { variable, removedAssignments } = this.props;
     const assignedValue = (getAssignedValue(variable) || { value: '' }).value;
 
+    const message = getInvalidMessage(variable, removedAssignments);
     const className = classnames('input', {
-      'input-removed': variable.removedAssignment
+      'input-removed': message
     });
-
-    const message = getInvalidMessage(variable);
-
     const displayValue = variable.removedAssignment
       ? variable.removedAssignment.value
       : assignedValue;

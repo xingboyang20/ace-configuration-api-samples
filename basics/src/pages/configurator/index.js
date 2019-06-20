@@ -69,7 +69,11 @@ class Configurator extends React.Component {
 
       // update the state when new sections with the result from the `/configure`
       // API
-      this.setState({ sections: result.sections, error: null });
+      this.setState({
+        sections: result.sections,
+        removedAssignments: result.removedAssignments,
+        error: null
+      });
     } catch (e) {
       if (e.type === 'CannotLoadPackage') {
         this.setState({
@@ -122,14 +126,14 @@ class Configurator extends React.Component {
             </p>
             <p>
               If you don't know any product id, use the{' '}
-              <a href="/products">product search</a> to find one
+              <a href="/product-search">product search</a> to find one
             </p>
           </div>
         </Page>
       );
     }
 
-    const { sections, activeTabIndex, error } = this.state;
+    const { sections, removedAssignments, activeTabIndex, error } = this.state;
     if (error) {
       return <Page>{error}</Page>;
     }
@@ -151,12 +155,14 @@ class Configurator extends React.Component {
                 key={subsection.id}
                 onAssign={this.handleOnAssign}
                 onUnassign={this.handleOnUnassign}
+                removedAssignments={removedAssignments}
               />
             ))}
             <Section
               section={{ variables: activeSection.variables }}
               onAssign={this.handleOnAssign}
               onUnassign={this.handleOnUnassign}
+              removedAssignments={removedAssignments}
             />
           </Tabs>
         </div>

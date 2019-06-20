@@ -47,7 +47,7 @@ const issuesToString = (issues = []) => issues.map(i => i.message).join('\n');
  * * The Control for assigning values, e.g. <Dropdown>
  * * An Unassign button
  */
-function VariableLine({ variable, onAssign, onUnassign }) {
+function VariableLine({ variable, removedAssignments, onAssign, onUnassign }) {
   const className = classnames('variable-line', {
     VariableLine__invalid: variable.issues
   });
@@ -73,6 +73,7 @@ function VariableLine({ variable, onAssign, onUnassign }) {
       </div>
       <div className="variable-line__input">
         <VariableInput
+          removedAssignments={removedAssignments}
           variable={variable}
           onAssign={onAssign}
           onUnassign={onUnassign}

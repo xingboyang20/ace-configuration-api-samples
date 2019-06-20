@@ -11,7 +11,12 @@ import MultivaluedInput from './MultivaluedInput';
  * * `<TextInput>` is rendered for string values with no distinct value count.
  * * `<DropDown>` is rendered for everything else.
  */
-export default function VariableInput({ variable, onAssign, onUnassign }) {
+export default function VariableInput({
+  variable,
+  onAssign,
+  onUnassign,
+  removedAssignments
+}) {
   if (variable.allowMultipleAssignments) {
     return (
       <MultivaluedInput
@@ -27,6 +32,7 @@ export default function VariableInput({ variable, onAssign, onUnassign }) {
         variable={variable}
         onAssign={onAssign}
         onUnassign={onUnassign}
+        removedAssignments={removedAssignments}
       />
     );
   }
@@ -36,6 +42,7 @@ export default function VariableInput({ variable, onAssign, onUnassign }) {
         variable={variable}
         onAssign={onAssign}
         onUnassign={onUnassign}
+        removedAssignments={removedAssignments}
       />
     );
   }
