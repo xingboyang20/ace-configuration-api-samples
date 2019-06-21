@@ -2,6 +2,7 @@ import React from 'react';
 import Dropdown from './Dropdown';
 import TextInput from './TextInput';
 import MultivaluedInput from './MultivaluedInput';
+import DateInput from './DateInput';
 
 /**
  * Render different "input" controls dependent on variable type.
@@ -23,6 +24,16 @@ export default function VariableInput({
         variable={variable}
         onAssign={onAssign}
         onUnassign={onUnassign}
+      />
+    );
+  }
+  if (variable.valueType === 'Date') {
+    return (
+      <DateInput
+        variable={variable}
+        onAssign={onAssign}
+        onUnassign={onUnassign}
+        removedAssignments={removedAssignments}
       />
     );
   }
