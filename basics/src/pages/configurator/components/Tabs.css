@@ -4,7 +4,7 @@
   justify-content: center;
 }
 
-.tabs__tab {
+.tabs-tab {
   padding: 5px;
   min-width: 100px;
   border: none;
@@ -13,11 +13,11 @@
   background-color: transparent;
   margin-bottom: -1px;
 }
-.tabs__tab:focus,
-.tabs__tab:active {
+.tabs-tab:focus,
+.tabs-tab:active {
   outline: 1px dotted rgb(2, 34, 90, 0.2);
 }
 
-.tabs__tab-active {
+.tabs-tab-active {
   border-bottom: 2px solid rgb(2, 34, 90);
 }

@@ -29,8 +29,8 @@ class MultivaluedOption extends React.Component {
 
   render() {
     const { value, excluded } = this.props;
-    const className = classnames('multivalued__option', {
-      'multivalued__option--incompatible': this.incompatible(value, excluded)
+    const className = classnames('multivalued-option', {
+      'multivalued-option-incompatible': this.incompatible(value, excluded)
     });
     const checked = !!this.assigned(value, excluded);
 
@@ -50,36 +50,6 @@ class MultivaluedOption extends React.Component {
   }
 }
 
-function MultivaluedOptions({ variable, value, onAssign, onUnassign, text }) {
-  const { name } = value;
-
-  return (
-    <div className="multivalued__options">
-      <div className="multivalued__options__title">{name}</div>
-
-      <MultivaluedOption
-        variable={variable}
-        value={value}
-        onAssign={onAssign}
-        onUnassign={onUnassign}
-        excluded={false}
-        key="yes"
-        text={text}
-      />
-
-      <MultivaluedOption
-        variable={variable}
-        value={value}
-        onAssign={onAssign}
-        onUnassign={onUnassign}
-        excluded={true}
-        key="no"
-        text={text}
-      />
-    </div>
-  );
-}
-
 /**
  * `<MultivalueInput>` component is used to render multiple assignable values
  * for variables that accepts multiple assignments.
@@ -97,15 +67,30 @@ class MultivaluedInput extends React.Component {
 
     return (
       <div className="multivalued">
-        {values.map((v, i) => (
-          <MultivaluedOptions
-            variable={variable}
-            value={v}
-            onAssign={onAssign}
-            onUnassign={onUnassign}
-            key={v.name + i}
-            text={text}
-          />
+        {values.map(value => (
+          <div className="multivalued-options" key={value.value}>
+            <div className="multivalued-options-title">{variable.name}</div>
+
+            <MultivaluedOption
+              variable={variable}
+              value={value}
+              onAssign={onAssign}
+              onUnassign={onUnassign}
+              excluded={false}
+              key="yes"
+              text={text}
+            />
+
+            <MultivaluedOption
+              variable={variable}
+              value={value}
+              onAssign={onAssign}
+              onUnassign={onUnassign}
+              excluded={true}
+              key="no"
+              text={text}
+            />
+          </div>
         ))}
       </div>
     );

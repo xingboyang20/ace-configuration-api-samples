@@ -5,28 +5,28 @@
   justify-content: space-between;
 }
 
-.variable-line__text {
+.variable-line-text {
   flex: 1;
   margin-right: 12px;
 }
 
-.variable-line__input {
+.variable-line-input {
   flex: 1;
   align-self: flex-end;
 }
 
-.variable-line__invalid {
+.variable-line-invalid {
   border-left: 2px solid #a94442;
 }
 
-.variable-line__invalid-mark {
+.variable-line-invalid-mark {
   display: inline-block;
   margin-left: 5px;
   vertical-align: middle;
   color: #a94442;
 }
 
-.variable-line__actions {
+.variable-line-actions {
   width: 16px;
   vertical-align: middle;
   line-height: 16px;

@@ -1,4 +1,4 @@
-## Products API Sample
+## Products Search Sample
 
 The products search example shows how to create a small application that allows users to search for products in a package on the CLM Platform.
 
