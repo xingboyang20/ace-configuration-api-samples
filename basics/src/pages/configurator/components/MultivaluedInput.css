@@ -3,26 +3,26 @@
   flex-direction: column;
 }
 
-.multivalued__options {
+.multivalued-options {
   flex: 1;
   display: flex;
   padding-bottom: 6px;
 }
 
-.multivalued__options__title {
+.multivalued-options-title {
   flex: 1;
   margin-right: 16px;
 }
 
-.multivalued__option--incompatible {
+.multivalued-option-incompatible {
   color: #aaa;
 }
 
-multivalued__option > input[type='radio'] {
+multivalued-option > input[type='radio'] {
   margin-top: -1px;
   vertical-align: middle;
 }
 
-.multivalued__option {
+.multivalued-option {
   margin-left: 6px;
 }

@@ -52,7 +52,7 @@ function Issues({ variable }) {
   }
   const issueString = variable.issues.map(i => i.message).join('\n');
   return (
-    <div className="variable-line__invalid-mark" title={issueString}>
+    <div className="variable-line-invalid-mark" title={issueString}>
       <Error width={16} height={16} />
     </div>
   );
@@ -67,16 +67,16 @@ function Issues({ variable }) {
  */
 function VariableLine({ variable, removedAssignments, onAssign, onUnassign }) {
   const className = classnames('variable-line', {
-    VariableLine__invalid: variable.issues
+    'variable-line-invalid': variable.issues
   });
 
   return (
     <div className={className}>
-      <div className="variable-line__text">
+      <div className="variable-line-text">
         {variable.name} <RequiredMark variable={variable} />
         <Issues variable={variable} />
       </div>
-      <div className="variable-line__input">
+      <div className="variable-line-input">
         <VariableInput
           removedAssignments={removedAssignments}
           variable={variable}
@@ -84,7 +84,7 @@ function VariableLine({ variable, removedAssignments, onAssign, onUnassign }) {
           onUnassign={onUnassign}
         />
       </div>
-      <div className="variable-line__actions">
+      <div className="variable-line-actions">
         {hasUserAssignedValue(variable) && (
           <UnassignButton variable={variable} onUnassign={onUnassign} />
         )}

@@ -27,7 +27,7 @@ export function Section({
   return (
     <section>
       {level > 0 && (
-        <header className={`section__header section__header__level${level}`}>
+        <header className={`section-header section-header-level${level}`}>
           {section.name}
         </header>
       )}
@@ -42,7 +42,7 @@ export function Section({
       ))}
       {(section.sections || []).map(subSection => (
         <Section
-          key={`${section.id}__${subSection.id}`}
+          key={`${section.id}-${subSection.id}`}
           section={subSection}
           onAssign={onAssign}
           onUnassign={onUnassign}

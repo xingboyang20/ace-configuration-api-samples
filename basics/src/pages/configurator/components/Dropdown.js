@@ -16,7 +16,7 @@ function Option({ value }) {
   const { name } = value;
 
   const className = classnames({
-    'dropdown--incompatible': value.incompatible
+    'dropdown-incompatible': value.incompatible
   });
 
   return (
@@ -60,7 +60,7 @@ export default class Dropdown extends React.Component {
           <option key={NO_VALUE} value={NO_VALUE} />
         )}
         {variable.values.map((value, i) => (
-          <Option key={`${value.value}__${i}`} value={value} />
+          <Option key={`${value.value}-${i}`} value={value} />
         ))}
       </select>
     );

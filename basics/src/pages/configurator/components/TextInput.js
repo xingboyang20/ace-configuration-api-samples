@@ -55,29 +55,25 @@ class Input extends React.Component {
   }
 }
 
+function findRemoved(variable, removedAssignments) {
+  return removedAssignments.variableAssignments.find(
+    ra => ra.variable.id === variable.id
+  );
+}
+
 /**
  * Collect and format a message for invalid assignments
  */
-function getInvalidMessage(variable, removedAssignments) {
-  console.log(removedAssignments);
-  const removedAssignment = removedAssignments.variableAssignments.find(
-    ra => ra.variable.id === variable.id
-  );
-  let message = '';
-  if (removedAssignment) {
-    let availableValues = variable.values
-      .filter(v => !v.incompatible)
-      .map(v => v.value);
-    let displayValues = availableValues.slice(0, 10).join(', ');
-    let value = removedAssignment.value;
-    if (availableValues.length > 10) {
-      displayValues = displayValues.concat(', ...');
-    }
-    message = `${
-      value.value
-    } is not valid. Available values are [${displayValues}]`;
+function getInvalidMessage(variable, removedAssignment) {
+  const availableValues = variable.values
+    .filter(v => !v.incompatible)
+    .map(v => v.value);
+  let displayValues = availableValues.slice(0, 10).join(', ');
+  const value = removedAssignment.value;
+  if (availableValues.length > 10) {
+    displayValues = displayValues.concat(', …');
   }
-  return message;
+  return `${value.value} is not valid. Available values are [${displayValues}]`;
 }
 
 /**
@@ -95,12 +91,15 @@ class TextInput extends React.Component {
     const { variable, removedAssignments } = this.props;
     const assignedValue = (getAssignedValue(variable) || { value: '' }).value;
 
-    const message = getInvalidMessage(variable, removedAssignments);
+    const removedAssignment = findRemoved(variable, removedAssignments);
+    const message = removedAssignment
+      ? getInvalidMessage(variable, removedAssignment)
+      : null;
     const className = classnames('input', {
-      'input-removed': message
+      'input-invalid': message
     });
-    const displayValue = variable.removedAssignment
-      ? variable.removedAssignment.value
+    const displayValue = removedAssignment
+      ? removedAssignment.value.value
       : assignedValue;
 
     return (
@@ -111,7 +110,7 @@ class TextInput extends React.Component {
           value={displayValue}
           onChange={this.handleOnChange}
         />
-        <div className="text-input--help">{message}</div>
+        <div className="text-input-help">{message}</div>
       </div>
     );
   }
