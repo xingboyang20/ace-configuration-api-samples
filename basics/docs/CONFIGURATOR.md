@@ -12,9 +12,9 @@ This document describes how to build this basic configurator. It covers the foll
 - [Getting started](#getting-started)
 - [UI from response](#ui-from-response)
 - [Making assignments](#making-assignments)
-  - [Dropdowns](#dropdowns)
-  - [Text input](#text-input)
-  - [Date input](#date-input)
+  - [Dropdown](#dropdown)
+  - [Text input](#textinput)
+  - [Date input](#dateinput)
   - [Multivalued](#multivalued)
 - [Dealing with issues](#dealing-with-issues)
 - [Conflict resolution](#conflict-resolution)
@@ -418,11 +418,11 @@ class TextInput extends React.Component {
 
 ### `<DateInput>`
 
-The implementation of the `<DateInput>` component is very similar to the `<TextInput>`. In this example we use the native [`\<input type="date">](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date), as we want to focus on using the configuration API and not on how to use a date picker. The ideas in the implementation can be reused for other 3rd party datepickers.
+The implementation of the `<DateInput>` component is very similar to `<TextInput>`. In this example we use the native [`<input type="date">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date), as we want to focus on using the configuration API and not on how to use a date picker. The ideas in the implementation can be reused for other 3rd party date pickers.
 
-As with the `<TextInput>` we want to:
+As with `<TextInput>` we want to:
 
-- Render an date input field and make assignments when the value changes.
+- Render a date input field and make assignments when the value changes.
 - Display the currently assigned value.
 - Render a message if the user tried to assign an invalid value.
 
@@ -465,7 +465,7 @@ class DateInput extends React.Component {
 }
 ```
 
-As you can see the implementation is very similar to the `<TextInput>` the details of interacting with the native date input control is hidden in the `<DatePicker>` component.
+The details of interacting with the native date input control are encapsulated in the `<DatePicker>` component.
 
 ### `<MultivaluedInput>`
 
