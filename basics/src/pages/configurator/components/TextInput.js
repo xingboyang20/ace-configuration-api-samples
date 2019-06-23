@@ -1,7 +1,10 @@
 import React from 'react';
 import classnames from 'classnames';
 import './TextInput.css';
-import { getAssignedValue } from '../utils/variable-utils';
+import {
+  getAssignedValue,
+  formatAvailableValues
+} from '../utils/variable-utils';
 
 /**
  * Wrapper around `<input>`. Calls `onChange` prop
@@ -65,15 +68,11 @@ function findRemoved(variable, removedAssignments) {
  * Collect and format a message for invalid assignments
  */
 function getInvalidMessage(variable, removedAssignment) {
-  const availableValues = variable.values
-    .filter(v => !v.incompatible)
-    .map(v => v.value);
-  let displayValues = availableValues.slice(0, 10).join(', ');
-  const value = removedAssignment.value;
-  if (availableValues.length > 10) {
-    displayValues = displayValues.concat(', …');
-  }
-  return `${value.value} is not valid. Available values are [${displayValues}]`;
+  const displayValues = formatAvailableValues(variable);
+
+  return `${
+    removedAssignment.value.value
+  } is not valid. Available values are [${displayValues}]`;
 }
 
 /**

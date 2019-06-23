@@ -12,8 +12,9 @@ This document describes how to build this basic configurator. It covers the foll
 - [Getting started](#getting-started)
 - [UI from response](#ui-from-response)
 - [Making assignments](#making-assignments)
-  - [Dropdowns](#dropdowns)
-  - [Text input](#text-input)
+  - [Dropdown](#dropdown)
+  - [Text input](#textinput)
+  - [Date input](#dateinput)
   - [Multivalued](#multivalued)
 - [Dealing with issues](#dealing-with-issues)
 - [Conflict resolution](#conflict-resolution)
@@ -414,6 +415,57 @@ class TextInput extends React.Component {
   }
 }
 ```
+
+### `<DateInput>`
+
+The implementation of the `<DateInput>` component is very similar to `<TextInput>`. In this example we use the native [`<input type="date">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date), as we want to focus on using the configuration API and not on how to use a date picker. The ideas in the implementation can be reused for other 3rd party date pickers.
+
+As with `<TextInput>` we want to:
+
+- Render a date input field and make assignments when the value changes.
+- Display the currently assigned value.
+- Render a message if the user tried to assign an invalid value.
+
+```jsx
+class DateInput extends React.Component {
+  handleOnChange = value => {
+    const { variable, onAssign, onUnassign } = this.props;
+
+    value ? onAssign(variable.id, value) : onUnassign(variable.id);
+  };
+
+  render() {
+    const { variable, removedAssignments } = this.props;
+    const assignedValue = (getAssignedValue(variable) || { value: '' }).value;
+
+    const removedAssignment = findRemoved(variable, removedAssignments);
+    const message = removedAssignment
+      ? getInvalidMessage(variable, removedAssignment)
+      : null;
+    const className = classnames('input', {
+      'input-invalid': message
+    });
+
+    let displayValue = removedAssignment
+      ? removedAssignment.value.value
+      : assignedValue;
+
+    return (
+      <div className="date-input">
+        <DatePicker
+          className={className}
+          type="date"
+          value={displayValue}
+          onChange={this.handleOnChange}
+        />
+        <div className="date-input-help">{message}</div>
+      </div>
+    );
+  }
+}
+```
+
+The details of interacting with the native date input control are encapsulated in the `<DatePicker>` component.
 
 ### `<MultivaluedInput>`
 

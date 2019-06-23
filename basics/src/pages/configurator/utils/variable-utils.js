@@ -58,3 +58,30 @@ export const isRequiredWithoutAssignment = variable =>
  */
 export const showVariable = variable =>
   (getProperty(variable, 'show') || { value: true }).value;
+
+/**
+ * Return a formatted string of available values.
+ */
+export const formatAvailableValues = (
+  variable,
+  truncateAfter = 10,
+  separator = ',',
+  valueFormatter = v => v
+) => {
+  const availableValues = variable.values
+    .filter(v => !v.incompatible)
+    .map(v => {
+      if (v.type === 'IntervalValue') {
+        return `${valueFormatter(v.lower)} - ${valueFormatter(v.upper)}`;
+      }
+      return valueFormatter(v.value);
+    });
+  let formattedValues = availableValues
+    .slice(0, truncateAfter)
+    .join(`${separator} `);
+
+  if (availableValues.length > truncateAfter) {
+    formattedValues = formattedValues.concat(`${separator} …`);
+  }
+  return formattedValues;
+};
