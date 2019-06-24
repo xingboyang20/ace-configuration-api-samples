@@ -34,4 +34,21 @@ And start the application with
 npm start
 ```
 
+## Making it your own
+
+The intention of this a example is to show how to build a configurator and to act as a starting poin for our configurator. To learn more, start by reading the [documention](docs/CONFIGURATOR.md).
+
+The project is organized in the following folders:
+
+```
+├── docs                    # documentation (Start here)
+├── public                  # index.html and assets
+└── src
+    ├── api                 # helpers for calling the http API
+    ├── components          # general components
+    └── pages
+        ├── product-search  # example using the /products API
+        └── configurator    # example configurator using the /configure API
+```
+
 This project is created with [Create React App](https://facebook.github.io/create-react-app/) their documentation has a lot valuable information about topics like: _Adding styles and assets_, _Deployment_, _Editor Setup_ etc.
