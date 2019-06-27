@@ -8,28 +8,28 @@ The application we are building looks like this:
 
 This document describes how to build this basic configurator. It covers the following topics:
 
-- [Server API review](#server-api-review)
+- [/configure endpoint review](#configure-endpoint-review)
 - [Getting started](#getting-started)
 - [UI from response](#ui-from-response)
 - [Making assignments](#making-assignments)
-  - [Dropdown](#dropdown)
-  - [Text input](#textinput)
-  - [Date input](#dateinput)
-  - [Multivalued](#multivalued)
-- [Dealing with issues](#dealing-with-issues)
+  - [\<Dropdown>](#dropdown)
+  - [\<TextInput>](#textinput)
+  - [\<DateInput>](#dateinput)
+  - [\<MultivaluedInput>](#multivaluedinput)
 - [Conflict resolution](#conflict-resolution)
+- [Dealing with issues](#dealing-with-issues)
 
-### Server API review
+## `/configure` endpoint review
 
-We start with a quick review of the configure API. The API is stateless, that means that the client application is responsible for maintaining the current state of what the user has selected, and must provide that state in each request.
+We start with a quick review of the `/configure` endpoint. The endpoint is stateless which means that the client application is responsible for maintaining the current state of what the user has selected, and must provide that state in each request.
 
-The API is designed for building interactive configurators, this means that:
+The `/configure` endpoint is designed for building interactive configurators. This means that:
 
-- The API responds with a structure of `sections`, `variables` and `values`. This structure depends on the product we're configuring and a client application can use this structure to organize the the variables/values for the user.
-- The names of the `sections`, `variables` and `values` are translations and you can request a translation different language (if provided in the VT Package)
+- The endpoint responds with a structure of `sections`, `variables` and `values`. This structure depends on the product we're configuring and a client application can use this structure to organize the the variables/values for the user.
+- The names of the `sections`, `variables` and `values` are translations and you can request a translation in a different language (if provided in the VT Package)
 - The value states in the response are simple and designed for a UI. A given value in the response can be `assigned: "byUser"`, `assigned: "bySystem"` or `incompatible`.
 
-The API response can look like this:
+The endpoint response looks like this:
 
 ```javascript
  "sections": [{
@@ -61,9 +61,9 @@ _Refer to the CLM Platform documentation for more details._
 
 ## Getting started
 
-We'll start by looking at the `<Configurator>` component defined in the `src/pages/configurator/index.js`. The first thing we need to do is to call the `/configure` API with the id of the product we want to configure.
+We'll start by looking at the `<Configurator>` component defined in the `src/pages/configurator/index.js`. The first thing we need to do is to call the `/configure` endpoint with the id of the product we want to configure.
 
-The `<Configurator>` component defines a function called `configure` which we use to call the `/configure` API.
+The `<Configurator>` component defines a function called `configure` which we use to call the `/configure` endpoint.
 
 ```javascript
 import configureAPI from '../../api/configure';
@@ -78,7 +78,11 @@ configure = async assignments => {
       date: new Date(),
       line: {
         productId,
-        variableAssignments: assignments
+        variableAssignments: assignments.map(a => ({
+          variableId: a.variable.id,
+          value: a.value.value,
+          exclude: a.value.exclude
+        })
       }
     });
 
@@ -89,16 +93,16 @@ configure = async assignments => {
 };
 ```
 
-The `configure` function calls the imported `api/configure` function which handles the HTTP call. The configure API gets called with:
+The `configure` function calls the imported `api/configure` function which handles the HTTP call. The `/configure` endpoint gets called with:
 
-- The **id** of the product to configure, which we get by looking in the URL
-- The **path** of the package that has the product, which we get from the variable defined in the `.env` file.
-- Any **assignments** passed into the function as arguments, see section about [making assignments](#making-assignments).
+- The id (`productId`) of the product to configure which we get by looking in the URL.
+- The path (`packagePath`) of the package that contains the product which we get from the variable defined in the `.env` file.
+- Any assignments (`assignments`) passed into the function as arguments, see section about [making assignments](#making-assignments).
 
 We call this function when the component is mounted.
 
 ```javascript
-async componentDidMount() {
+componentDidMount() {
   this.configure();
 }
 ```
@@ -107,7 +111,7 @@ This means that we are ready to render the UI when the component's state contain
 
 ## UI from response
 
-We want to use the sections from the API response to organize the UI. We do this by passing the sections down to child components. The UI is composed of the following components:
+We want to use the sections from the endpoint response to organize the UI. We do this by passing the sections down to child components. The UI is composed of the following components:
 
 ![Configurator components breakdown](configurator-components-breakdown.png)
 
@@ -127,10 +131,10 @@ The `handleActiveTabChange` function is called by the `<Tab>` component when the
 
 ### `<Section>`
 
-A `section` in the response have a list of variables and a list of potential (sub)sections. We use the `<Section>` component to render a `section`. We do this by rendering `<VariableLine>`s for each variable and `<Sections>`s for each subsection, like so:
+A `section` in the response has a list of variables and a list of potential (sub)sections. We use the `<Section>` component to render a `section`. We do this by rendering `<VariableLine>`s for each variable and `<Sections>`s for each subsection, like so:
 
 ```jsx
-// Some variables may be hidden we don't want to render those.
+// Some variables may be hidden and we don't want to render those.
 const visibleVariables = section.variables.filter(showVariable);
 
 if (visibleVariables.length === 0 && section.sections.length === 0) {
@@ -139,6 +143,7 @@ if (visibleVariables.length === 0 && section.sections.length === 0) {
 
 return (
   <div>
+    {/* The name of the first level of sections are already dislayed in the tabs */}
     {level > 0 && (
       <header className={`section-header section-header-level${level}`}>
         {section.name}
@@ -205,7 +210,7 @@ This is implemented like this:
 
 ### `<VariableInput>`
 
-The `<VariableInput>` render an input control that let the user assign values to a variable. It does this by rendering either a `<Dropdown>`, `<TextInput>` or `<MultivaluedInput>` component, like so:
+The `<VariableInput>` renders an input control that lets the user assign values to a variable. It does this by rendering either a `<Dropdown>`, `<TextInput>` or `<MultivaluedInput>` component, like so:
 
 ```jsx
 if (variable.allowMultipleAssignments) {
@@ -246,12 +251,12 @@ We have chosen to use the type of the variable and the number of distinct values
 
 - For variables that allow multiple assignments, we render a `<MultivaluedInput>` component.
 - For number variables with more than 25 distinct values, we render a `<TextInput>` allowing the user to type a value.
-- For string variable with an unspecified number distinct values, we also render a `<TextInput>` because this means that the string value accepts any number of values.
+- For string variables with an unspecified number of distinct values, we also render a `<TextInput>` because this means that the string value accepts any number of values.
 - For everything else, we render a `<Dropdown>`.
 
-These are just the choices of this basic configurator, another configurator may choose to different input controls (like radio buttons, images, etc.) based on other criteria (such as screen size, device type etc.).
+These are just the choices of this basic configurator; you could choose a different layout scheme, e.g., show radio buttons, images, etc. based on other criteria such as screen size, device type etc.
 
-We now have a basic understanding of how to call the `/configure` API and render a UI based on the structure in the response. Next, we will look at the input controls and how to make assignments.
+We now have a basic understanding of how to call the `/configure` endpoint and render a UI based on the structure in the response. Next, we will look at the input controls and how to make assignments.
 
 ## Making assignments
 
@@ -259,29 +264,23 @@ Before we start looking at the components that let users select values for the v
 
 ### Managing state
 
-The `/configure` API is stateless, this means that it doesn't remember any state between requests. Each time we call the server, it has forgotten all about any previous calls. Therefore it is up to the client to store and maintain a list of choices the user has made so far.
+The `/configure` endpoint is stateless. Thus, it doesn't store any state between requests. Each time we call the server, the server has forgotten all about any previous calls. Therefore it is up to the client to store and maintain a list of choices the user has made so far.
 
 We store this list of choices (or assignments) as an array in our root component and define two functions for handling assignments and un-assignments.
 
 ```javascript
 import { assign, unassign } from './utils/assignment-utils';
 
-handleOnAssign = (variableId, value, exclude, multivalued) => {
-  const newAssignments = assign(
-    this.assignments,
-    { variableId, value, exclude },
-    multivalued
-  );
+handleOnAssign = (variable, value) => {
+  const currentAssignment = toAssignment(variable, value);
+  const newAssignments = assign(this.assignments, currentAssignment);
   this.assignments = newAssignments;
   this.configure(newAssignments);
 };
 
-handleOnUnassign = (variableId, value, exclude) => {
-  const newAssignments = unassign(this.assignments, {
-    variableId,
-    value,
-    exclude
-  });
+handleOnUnassign = (variable, value) => {
+  const currentAssignment = toAssignment(variable, value);
+  const newAssignments = unassign(this.assignments, currentAssignment);
   this.assignments = newAssignments;
   this.configure(newAssignments);
 };
@@ -300,12 +299,12 @@ We pass these two functions down to the components that that let users select va
 
 ### `<Dropdown>`
 
-The `<Dropdown>` component renders a dropdown of with possible values a user can choose for a variable. In our basic configurator we'll use the a [`<select>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select) element as our dropdown, you may want to provide a better experience and use a component like [react-select](https://react-select.com/home) or similar, regardless the concepts are the same.
+The `<Dropdown>` component renders a dropdown of with possible values a user can choose for a variable. In our basic configurator we'll use the a [`<select>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select) element as our dropdown; you may want to provide a better experience and use a component like [react-select](https://react-select.com/home) or similar, regardless the concepts are the same.
 
 We want to:
 
 - Render an option for each value.
-- Render an empty option for unassigning if when possible.
+- Render an empty option for unassigning when possible.
 - Select the currently assigned value.
 
 ```jsx
@@ -316,7 +315,10 @@ class Dropdown extends React.Component {
 
     value === NO_VALUE_VALUE
       ? onUnassign(variable.id)
-      : onAssign(variable.id, value);
+      : onAssign(
+        variable,
+        variable.values.find(v => v.value.toString() === value
+      );
   };
 
   render() {
@@ -361,14 +363,14 @@ function Option({ value }) {
 
 ### `<TextInput>`
 
-A <TextInput> is a text field that allows users to assign values to variables. Unlike the `<Dropdown>` this means that the user can enter invalid values and we need to deal with that.
+A <TextInput> is a text field that allows users to type in a value for a variable. Unlike the `<Dropdown>`, this means that the user can enter invalid values and we need to deal with that.
 
 > **Invalid vs Incompatible**
 >
-> Invalid isn't the same as Incompatible.
+> Invalid is not the same as Incompatible.
 >
 > - **Incompatible** means that you can get the value if you remove some other value(s)
-> - **Invalid** means that you can never assign that value to the variable. For example, if you try to assign the value "red" to a number variable.
+> - **Invalid** means that you can never assign that value to the variable. For example, if you try to assign the value "red" to a numeric variable.
 
 In the `<TextInput>` component we want to:
 
@@ -376,14 +378,14 @@ In the `<TextInput>` component we want to:
 - Display the currently assigned value in the text field.
 - Render a message if the user tried to assign an invalid value.
 
-When we try to assign invalid values, the configure API respond with a list of removed assignments. These are assignments that have been removed from what was the requested. We can check if the variable behind the text input is in the list of removed assignments and display a message and add the `input-invalid` CSS class.
+When we try to assign invalid values, the `/configure` endpoint responds with a list of removed assignments. These are assignments that have been removed from what was requested. We can check if the variable behind the text input is in the list of removed assignments and display a message and add the `input-invalid` CSS class.
 
 ```jsx
 class TextInput extends React.Component {
   handleOnChange = value => {
     const { variable, onAssign, onUnassign } = this.props;
 
-    value === '' ? onUnassign(variable.id) : onAssign(variable.id, value);
+    value === '' ? onUnassign(variable) : onAssign(variable, { value });
   };
 
   render() {
@@ -405,7 +407,7 @@ class TextInput extends React.Component {
       <div className="text-input">
         <Input
           className={className}
-          type={variable.type === 'Number' ? 'number' : undefined}
+          type={variable.valueType === 'Number' ? 'number' : undefined}
           value={displayValue}
           onChange={this.handleOnChange}
         />
@@ -418,7 +420,7 @@ class TextInput extends React.Component {
 
 ### `<DateInput>`
 
-The implementation of the `<DateInput>` component is very similar to `<TextInput>`. In this example we use the native [`<input type="date">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date), as we want to focus on using the configuration API and not on how to use a date picker. The ideas in the implementation can be reused for other 3rd party date pickers.
+The implementation of the `<DateInput>` component is very similar to `<TextInput>`. In this example we use the native [`<input type="date">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date), as we want to focus on using the `/configure` endpoint rather than focusing on how to use a date picker. The ideas in the implementation can be reused for other 3rd-party date pickers.
 
 As with `<TextInput>` we want to:
 
@@ -431,7 +433,7 @@ class DateInput extends React.Component {
   handleOnChange = value => {
     const { variable, onAssign, onUnassign } = this.props;
 
-    value ? onAssign(variable.id, value) : onUnassign(variable.id);
+    value ? onAssign(variable, { value }) : onUnassign(variable);
   };
 
   render() {
@@ -469,12 +471,23 @@ The details of interacting with the native date input control are encapsulated i
 
 ### `<MultivaluedInput>`
 
-The `<MultivaluedInput>` component handles variables that accepts multiple assignments.
+Before diving into the component, let's review how assignments to variables that accept multiple assignments are different from "normal" assignments. If we think about options for a bicycle, you may have an **options** variable with values **bottle** and **carrier**. We can display that in a UI like this:
 
-Before diving into the component, let's review how this is represented in the API. Below is a sample response for a variable that accepts multiple assignments. As we can see the values has an "include" (normal state) and "exclude" state.
+```
+Options
+  Bottle    🔘 Yes   🔘 No
+  Carrier   🔘 Yes   🔘 No
+```
 
-- The "include" state is the state of selecting this value. For example, the **CARRIER** value's include state is assigned by the user and its exclude state is incompatible.
-- The exclude state is the state of (actively) **not** selecting this value. For example, the **BOTTLE** value below is excluded by the user, this means that the user has chosen that he doesn't want a bottle.
+For each value:
+
+- The user can assign "yes, I want this option" or "no, I don't want this option".
+- The system can assign "yes" or "no".
+- The system can mark "yes" or "no" as incompatible.
+
+This means that, when we make assignments and render the current configuration, we need more than variable and value. We also need to know if it "yes" or "no". In the `/configure` endpoint the "yes" case is the considered the typical case and is treated without special attention. The "no" case is called "excluded".
+
+Below is a sample response for a variable that accepts multiple assignments. As we can see, the `values` have an extra `excluded` state.
 
 ```json
 {
@@ -493,19 +506,26 @@ Before diving into the component, let's review how this is represented in the AP
       "excluded": { "incompatible": true },
       "assigned": "byUser",
       "incompatible": false
-    },
-    {
-      "value": "LOCK",
-      "excluded": { "incompatible": false },
-      "incompatible": false
     }
   ]
 }
 ```
 
-When making assignments, we also need to specify if we are assigning to the include or exclude state.
+Here we can see:
 
-The `<MultivalueInput>` renders two options for each value (so the user can "include" or "exclude" the value).
+- The **CARRIER** value's include state is assigned by the user and its exclude state is incompatible, this means that you can't choose that you don't want want a carrier.
+- The **BOTTLE** value's exclude state is assignned by the user, this means that the user has chosen that he doesn't want a bottle.
+
+Likewise, when we make assignments, we need to specify if we are assigning to the include or exclude state. To assign "yes" to bottle and "no" to carrier we need these assignments:
+
+```javascript
+[
+  { variableId: 'OPTIONS', value: 'BOTTLE' },
+  { variableId: 'OPTIONS', value: 'CARRIER', exclude: true }
+];
+```
+
+The `<MultivalueInput>` renders a UI like the one above with two options for each value (so the user can "include" or "exclude" the value).
 
 ```jsx
 class MultivaluedInput extends React.Component {
@@ -569,10 +589,10 @@ class MultivaluedOption extends React.Component {
 
   handleOnChange = () => {
     const { onAssign, onUnassign, variable, value, excluded } = this.props;
-    if (this.assigned(value, excluded) === 'byUser') {
-      onUnassign(variable.id, value.value, excluded, true);
+    if (this.assigned(value, exclude) === 'byUser') {
+      onUnassign(variable, { value: value.value, exclude });
     } else {
-      onAssign(variable.id, value.value, excluded, true);
+      onAssign(variable, { value: value.value, exclude });
     }
   };
 
@@ -590,12 +610,208 @@ class MultivaluedOption extends React.Component {
           name={value.value}
           checked={checked}
           id={value.value + excluded}
-          onChange={this.handleOnChange}
+          onClick={this.handleOnChange}
           value={value.value}
         />
         {excluded ? 'No' : 'Yes'}
       </label>
     );
   }
+}
+```
+
+## Conflict resolution
+
+The input components (`<Dropdown/>`, `<MultivaluedInput>` etc.) render **incompatible** values, for example the `<Dropdown>` component render a gray background for incompatible values. Render incompatible values is a choice you can make when building a configurator, for simple wizard style configurators it may be a better user experience to hide incompatible values.
+
+When we render incompatible values, we need to handle what happens when a user chooses such a value. We call conflict resolution, we consider incompatible values to be in conflict with the current configuration. When assigning incompatible values the `/configure` endpoint will respond with a list of assignments that have been removed to keep the configuration valid. We want to display this information to the user and let her choose if she wants to keep the conflicting assignment and remove the previous assignments or to ignore the conflicting assignment and keep the previous assignments.
+
+We do that in a dialog like this:
+
+![conflict dialog](./conflict.png)
+
+> **NOTE** this is just one way to implement conflict resolution another typical pattern is "undo". Where we just make the assignment and inform the user of what got removed and allow her to undo the last assignment.
+
+### `<ConflictDialog>`
+
+When showing the conflict dialog, we want to:
+
+- Display the assignment that caused the conflict.
+- Display the consequence of making that assignment.
+- Allow the user to accept or reject the assignment.
+
+```jsx
+function ConflictDialog({ conflict, onAccept, onReject }) {
+  const currentAssignment = (conflict || {}).currentAssignment;
+  const removedAssignments = (conflict || {}).removedAssignments;
+
+  return (
+    <Dialog onDismiss={onReject} isOpen={!!conflict}>
+      <div className="conflict">
+        <div className="conflict-content">
+          <h1>Assign and remove?</h1>
+          {currentAssignment && (
+            <>
+              <div>Assigning</div>
+              <ul>
+                <li>
+                  <FormatAssignment
+                    assignment={currentAssignment}
+                    separator="To"
+                  />
+                </li>
+              </ul>
+              <div>Removes</div>
+              <ul>
+                {removedAssignments.map(ra => (
+                  <li key={ra.variable.id}>
+                    <FormatAssignment assignment={ra} separator="From" />
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+        <div className="conflict-footer">
+          <Button onClick={onAccept}>Assign and remove</Button>
+          &nbsp;&nbsp;
+          <Button variant="link" onClick={onReject}>
+            Cancel
+          </Button>
+        </div>
+      </div>
+    </Dialog>
+  );
+}
+```
+
+The `<ConflictDialog>` expects a `conflict` object that has a `currentAssignment` and a list of `removedAssingments` and two functions or handling acceptance and rejection.
+
+The creation of the `conflict` object and implementation of the `onAccept` and `onReject` is done in the `<Configurator>` component. After we have received a response from the server (See the [Getting started](#getting-started) section for details) we want to check for conflicts.
+
+```javascript
+// update the state when new sections with the
+// result from the `/configure` endpoint
+const conflict = getConflict(
+  currentAssignment,
+  result.removedAssignments.variableAssignments
+);
+if (conflict) {
+  this.setState({ conflict, nextResult: result, error: null });
+} else {
+  this.setState({
+    sections: result.sections,
+    removedAssignments: result.removedAssignments,
+    error: null
+  });
+}
+```
+
+We use the `getConflict` function from the `utils/variable-utils.js` to check for conflicts. If there is a conflict, we update the component state with the conflict object. We also add the result as `nextResult` to the component state, this allows us to apply this result if the user accepts the conflicting assignment.
+
+#### Accepting the conflict
+
+If the user accepts the conflict we want to:
+
+- Prune our local assignments array, so it matches the current list of assignments. We do that by removing the assignments that got removed by the server.
+- Use the stored `nextResult` to re-render the configurator.
+
+```javascript
+handleAcceptConflict = () => {
+  this.assignments = removeAssignments(
+    this.assignments,
+    this.state.conflict.removedAssignments
+  );
+
+  this.setState({
+    conflict: undefined,
+    sections: this.state.nextResult.sections,
+    nextResult: null
+  });
+};
+```
+
+#### Rejecting the conflict
+
+If the user rejects the conflict we want to:
+
+- Remove the `conflict` object from our state.
+- Remove the conflicting assignment from the local assignments array
+
+```javascript
+handleRejectConflict = () => {
+  const { currentAssignment } = this.state.conflict;
+  this.assignments = unassign(this.assignments, currentAssignment);
+
+  this.setState({ conflict: null });
+};
+```
+
+# Dealing with issues
+
+Under certain circumstances the configure API is not able to ensure that the configuration is valid, this can occur for product models extracted from SAP or product models with arithmetic rules. When the configuration is invalid, the response contains "issues".
+
+In a configurator application, we display these issues to the user. We do this in the `<InvalidMark>` and `<IssuesDialog>`. The `<InvalidMark>` gets rendered if there are any issues.
+
+```jsx
+class InvalidMark extends React.Component {
+  state = {
+    showDialog: false
+  };
+
+  render() {
+    const { issues } = this.props;
+
+    const { showDialog } = this.state;
+    if (!issues) {
+      return null;
+    }
+
+    return (
+      <>
+        <button
+          className="invalid-mark"
+          onClick={() => this.setState({ showDialog: !showDialog })}
+        >
+          Invalid ({issues.length === 1 ? '1 issue' : `${issues.length} issues`}
+          )
+        </button>
+        <IssuesDialog
+          issues={issues}
+          isOpen={showDialog}
+          onDismiss={() => this.setState({ showDialog: false })}
+        />
+      </>
+    );
+  }
+}
+```
+
+When the user clicks the invalid mark, we render the `<IssuesDialog>`.
+
+```jsx
+function IssuesDialog({ issues, isOpen, onDismiss }) {
+  return (
+    <Dialog onDismiss={onDismiss} isOpen={isOpen}>
+      <div className="issues-dialog">
+        <div className="issues-content">
+          <h1>Invalid configuration</h1>
+          <div className="issues-lead">
+            {issues.length === 1 ? '1 Issue' : `${issues.length} Issues`} found
+          </div>
+          <ul className="issues-list">
+            {issues.map((issue, i) => (
+              <li key={i}>
+                <FormatMessage message={issue.message} />
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="issues-footer">
+          <Button onClick={onDismiss}>OK</Button>
+        </div>
+      </div>
+    </Dialog>
+  );
 }
 ```

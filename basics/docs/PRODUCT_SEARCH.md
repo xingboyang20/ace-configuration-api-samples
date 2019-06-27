@@ -40,9 +40,9 @@ class ProductSearch extends React.Component {
 }
 ```
 
-To call the products api we'll use the function defined in the `./api/products.js` file.
+To call the `/products` endpoint we'll use the function defined in the `./api/products.js` file.
 
-The `handleSearch` function is called when a user clicks the search button. It calls the API and updates the local state with the returned products. These products are passed to the `ProductList` component. The `ProductList` component renders a summary of each product.
+The `handleSearch` function is called when a user clicks the search button. It calls the endpoint and updates the local state with the returned products. These products are passed to the `ProductList` component. The `ProductList` component renders a summary of each product.
 
 ```jsx
 function ProductSummary({ product, showDetails, onToggleDetails }) {
@@ -92,4 +92,4 @@ const ProductDetails = ({ product }) => (
 );
 ```
 
-A product also has an `id` which you use in calls to the [Configure](CONFIGURATOR.md) API.
+A product also has an `id` which you use in calls to the [/configure](CONFIGURATOR.md) endpoint.

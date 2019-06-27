@@ -85,3 +85,27 @@ export const formatAvailableValues = (
   }
   return formattedValues;
 };
+
+/**
+ * Get a conflict structure, containing currentAssignment and removedAssignments.
+ */
+export const getConflict = (currentAssignment, removedAssignments) => {
+  if (!currentAssignment) {
+    return null;
+  }
+  if (!removedAssignments || !removedAssignments.length) {
+    return null;
+  }
+  if (
+    removedAssignments.length === 1 &&
+    removedAssignments[0].variable.id === currentAssignment.variable.id &&
+    removedAssignments[0].value.value === currentAssignment.value.value
+  ) {
+    return null;
+  }
+
+  return {
+    currentAssignment,
+    removedAssignments
+  };
+};

@@ -91,7 +91,7 @@ class DateInput extends React.Component {
   handleOnChange = value => {
     const { variable, onAssign, onUnassign } = this.props;
 
-    value ? onAssign(variable.id, value) : onUnassign(variable.id);
+    value ? onAssign(variable, { value }) : onUnassign(variable);
   };
 
   render() {

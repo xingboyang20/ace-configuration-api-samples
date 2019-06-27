@@ -22,7 +22,7 @@ const Tabs = ({ tabs, activeTabIndex, onTabChange, children }) => {
           </button>
         ))}
       </div>
-      {children}
+      <div className="tab-content">{children}</div>
     </>
   );
 };

@@ -1,12 +1,12 @@
 # CLM Configuration Samples
 
-This repository contains examples of how to use the CLM Platform Configuration APIs.
+This repository contains sample applications that show how to use the CLM Platform Configuration API.
 
 There are two samples:
 
-- **[Basic](basics/README.md)** a basic application that walk you through the use of each of the CLM Platform APIs.
+- **[Basic](basics/README.md)** - A basic application that demonstrates each of the Configuration API endpoints.
 
-- **[iHear](ihear/README.md)** larger application that mimics a webshop selling hearing aids.
+- **[iHear](ihear/README.md)** - A larger application that mimics a webshop selling hearing aids.
 
 ## Prerequisites
 
@@ -16,6 +16,4 @@ In order to run the examples, you need to:
 - Have an installation of **CLM Platform** running.
 - Have the iHear sample package published to the storage. Refer to the CLM Platform documentation for instructions on how to do that.
 
-The samples are web applications built with [React](https://reactjs.org/), and the code and documentation requires that you are familiar with writing web application with React.
-
-The `iHear` sample is written in [TypeScript](https://www.typescriptlang.org/) and assumes that you have a minimal understanding of TypeScript.
+To follow along with the samples, you need to be familiar with building web apps with [React](https://reactjs.org/). For the `iHear` sample you also need a minimal understanding of [TypeScript](https://www.typescriptlang.org/).

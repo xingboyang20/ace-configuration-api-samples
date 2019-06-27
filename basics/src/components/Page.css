@@ -1,9 +1,16 @@
 .page {
-  background-color: white;
-  color: #333;
   display: flex;
   border-radius: 2px;
-  margin: 0 20px;
-  padding: 20px 40px;
-  min-height: calc(100vh - 90px);
+  margin: 0 26px;
+  padding-bottom: 20px;
+  height: calc(100vh - 90px);
+  color: rgb(2, 34, 90);
+}
+
+.page-normal {
+  background-color: white;
+}
+
+.page-transparent {
+  background-color: transparent;
 }

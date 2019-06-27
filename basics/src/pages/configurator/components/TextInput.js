@@ -83,7 +83,7 @@ class TextInput extends React.Component {
   handleOnChange = value => {
     const { variable, onAssign, onUnassign } = this.props;
 
-    value === '' ? onUnassign(variable.id) : onAssign(variable.id, value);
+    value === '' ? onUnassign(variable) : onAssign(variable, { value });
   };
 
   render() {
@@ -105,7 +105,7 @@ class TextInput extends React.Component {
       <div className="text-input">
         <Input
           className={className}
-          type={variable.type === 'Number' ? 'number' : undefined}
+          type={variable.valueType === 'Number' ? 'number' : undefined}
           value={displayValue}
           onChange={this.handleOnChange}
         />

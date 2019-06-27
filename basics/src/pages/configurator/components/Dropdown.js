@@ -42,8 +42,11 @@ export default class Dropdown extends React.Component {
     const { value } = e.target;
 
     value === NO_VALUE_VALUE
-      ? onUnassign(variable.id)
-      : onAssign(variable.id, value);
+      ? onUnassign(variable)
+      : onAssign(
+          variable,
+          variable.values.find(v => v.value.toString() === value)
+        );
   };
 
   render() {

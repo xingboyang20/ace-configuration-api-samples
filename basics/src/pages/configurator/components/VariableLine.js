@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import { Error, Clear } from '../../../components/Icons';
+import { Clear } from '../../../components/Icons';
 import VariableInput from './VariableInput';
 import IconButton from './IconButton';
 import {
@@ -8,6 +8,7 @@ import {
   isRequiredWithoutAssignment
 } from '../utils/variable-utils';
 import './VariableLine.css';
+import InvalidMark from './InvalidMark';
 
 /**
  * Components that can render a "line" in the Configurator.
@@ -26,7 +27,7 @@ function UnassignButton({ variable, onUnassign }) {
     <IconButton
       style={{ padding: '5px 0 0 4px' }}
       title={`Remove assignment to ${variable.name}`}
-      onClick={() => onUnassign(variable.id)}
+      onClick={() => onUnassign(variable)}
     >
       <Clear width="12px" height="12px" />
     </IconButton>
@@ -47,15 +48,7 @@ const RequiredMark = ({ variable }) => {
  * Render any potential issues for a variable
  */
 function Issues({ variable }) {
-  if (!variable.issues) {
-    return null;
-  }
-  const issueString = variable.issues.map(i => i.message).join('\n');
-  return (
-    <div className="variable-line-invalid-mark" title={issueString}>
-      <Error width={16} height={16} />
-    </div>
-  );
+  return <InvalidMark issues={variable.issues} />;
 }
 
 /**

@@ -1,19 +1,19 @@
-# Basic examples
+# Basic sample application
 
-These very basic examples that illustrate how to build applications against CLM Platform
+This sample application demonstrates how to use the CLM Platform Configuration API.
 
-This includes:
+It includes:
 
-- [Product Search](docs/PRODUCT_SEARCH.md)
+- [Product search](docs/PRODUCT_SEARCH.md)
 - [Configurator](docs/CONFIGURATOR.md)
 
 ## Getting started
 
-Before you run the applicatiom, change the settings in the `.env` file to match your local setup of the CLM Platform:
+Before running the application for the first time, change the settings in the `.env` file to match your local setup of the CLM Platform:
 
 - Change the `REACT_APP_API_URL` to the URL of your running configurator service.
 
-- Change the `REACT_APP_PACKAGE_PATH` to reference the package you want to use. The application can use any valid and published VT package.
+- Change the `REACT_APP_PACKAGE_PATH` to reference the published VT package you want to use.
 
 For example:
 
@@ -22,33 +22,36 @@ REACT_APP_API_URL=http://localhost:9010/configurator/v1
 REACT_APP_PACKAGE_PATH=samples/ihear
 ```
 
-Then install the code dependencies:
+Next, install the code dependencies:
 
 ```
 npm install
 ```
 
-And start the application with
+Then start the application:
 
 ```
 npm start
 ```
 
-## Making it your own
+## Structure
 
-The intention of this a example is to show how to build a configurator and to act as a starting poin for our configurator. To learn more, start by reading the [documention](docs/CONFIGURATOR.md).
-
-The project is organized in the following folders:
+The project has the following strucure:
 
 ```
 ├── docs                    # documentation (Start here)
 ├── public                  # index.html and assets
 └── src
-    ├── api                 # helpers for calling the http API
-    ├── components          # general components
+    ├── api                 # helpers for calling the HTTP API
+    ├── components          # general React components
     └── pages
-        ├── product-search  # example using the /products API
-        └── configurator    # example configurator using the /configure API
+        ├── configurator    # example configurator using the /configure endpoint
+        └── product-search  # example using the /products endpoint
+        
 ```
 
-This project is created with [Create React App](https://facebook.github.io/create-react-app/) their documentation has a lot valuable information about topics like: _Adding styles and assets_, _Deployment_, _Editor Setup_ etc.
+This project is created with [Create React App](https://facebook.github.io/create-react-app/). The React documentation has a lot valuable information about topics like _Adding styles and assets_, _Deployment_, _Editor Setup_, and so on.
+
+## Making it your own
+
+The intention of this sample is to act as a starting point for building your own configurator. To learn more, start by reading the [configurator documention](docs/CONFIGURATOR.md).

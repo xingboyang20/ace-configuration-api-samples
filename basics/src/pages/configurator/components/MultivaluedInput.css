@@ -7,6 +7,7 @@
   flex: 1;
   display: flex;
   padding-bottom: 6px;
+  align-items: center;
 }
 
 .multivalued-options-title {
@@ -18,11 +19,12 @@
   color: #aaa;
 }
 
-multivalued-option > input[type='radio'] {
-  margin-top: -1px;
-  vertical-align: middle;
+.multivalued-option {
+  display: flex;
+  margin-left: 6px;
+  align-items: center;
 }
 
-.multivalued-option {
-  margin-left: 6px;
+.multivalued-option > input[type='radio'] {
+  margin-right: 4px;
 }

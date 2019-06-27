@@ -15,17 +15,6 @@
   align-self: flex-end;
 }
 
-.variable-line-invalid {
-  border-left: 2px solid #a94442;
-}
-
-.variable-line-invalid-mark {
-  display: inline-block;
-  margin-left: 5px;
-  vertical-align: middle;
-  color: #a94442;
-}
-
 .variable-line-actions {
   width: 16px;
   vertical-align: middle;

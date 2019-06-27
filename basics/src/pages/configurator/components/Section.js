@@ -26,6 +26,7 @@ export function Section({
 
   return (
     <section>
+      {/* The name of the first level of sections are already dislayed in the tabs */}
       {level > 0 && (
         <header className={`section-header section-header-level${level}`}>
           {section.name}

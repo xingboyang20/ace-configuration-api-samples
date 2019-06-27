@@ -8,31 +8,31 @@ import './MultivaluedInput.css';
  *
  */
 class MultivaluedOption extends React.Component {
-  assigned(value, excluded) {
-    return value && (excluded ? value.excluded.assigned : value.assigned);
+  assigned(value, exclude) {
+    return value && (exclude ? value.excluded.assigned : value.assigned);
   }
 
-  incompatible(value, excluded) {
+  incompatible(value, exclude) {
     return (
-      value && (excluded ? value.excluded.incompatible : value.incompatible)
+      value && (exclude ? value.excluded.incompatible : value.incompatible)
     );
   }
 
   handleOnChange = () => {
-    const { onAssign, onUnassign, variable, value, excluded } = this.props;
-    if (this.assigned(value, excluded) === 'byUser') {
-      onUnassign(variable.id, value.value, excluded, true);
+    const { onAssign, onUnassign, variable, value, exclude } = this.props;
+    if (this.assigned(value, exclude) === 'byUser') {
+      onUnassign(variable, { value: value.value, exclude });
     } else {
-      onAssign(variable.id, value.value, excluded, true);
+      onAssign(variable, { value: value.value, exclude });
     }
   };
 
   render() {
-    const { value, excluded } = this.props;
+    const { value, exclude } = this.props;
     const className = classnames('multivalued-option', {
-      'multivalued-option-incompatible': this.incompatible(value, excluded)
+      'multivalued-option-incompatible': this.incompatible(value, exclude)
     });
-    const checked = !!this.assigned(value, excluded);
+    const checked = !!this.assigned(value, exclude);
 
     return (
       <label className={className}>
@@ -40,11 +40,12 @@ class MultivaluedOption extends React.Component {
           type="radio"
           name={value.value}
           checked={checked}
-          id={value.value + excluded}
-          onChange={this.handleOnChange}
+          id={value.value + exclude}
+          onClick={this.handleOnChange}
+          onChange={() => {}}
           value={value.value}
         />
-        {excluded ? 'No' : 'Yes'}
+        {exclude ? 'No' : 'Yes'}
       </label>
     );
   }
@@ -59,7 +60,7 @@ class MultivaluedOption extends React.Component {
  */
 class MultivaluedInput extends React.Component {
   render() {
-    const { variable, onAssign, onUnassign, text } = this.props;
+    const { variable, onAssign, onUnassign } = this.props;
 
     const values = !variable.distinctValueCount
       ? [...variable.values.slice(1)]
@@ -69,16 +70,15 @@ class MultivaluedInput extends React.Component {
       <div className="multivalued">
         {values.map(value => (
           <div className="multivalued-options" key={value.value}>
-            <div className="multivalued-options-title">{variable.name}</div>
+            <div className="multivalued-options-title">{value.name}</div>
 
             <MultivaluedOption
               variable={variable}
               value={value}
               onAssign={onAssign}
               onUnassign={onUnassign}
-              excluded={false}
+              exclude={false}
               key="yes"
-              text={text}
             />
 
             <MultivaluedOption
@@ -86,9 +86,8 @@ class MultivaluedInput extends React.Component {
               value={value}
               onAssign={onAssign}
               onUnassign={onUnassign}
-              excluded={true}
+              exclude={true}
               key="no"
-              text={text}
             />
           </div>
         ))}
