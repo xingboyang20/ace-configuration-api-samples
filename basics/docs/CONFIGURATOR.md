@@ -471,23 +471,24 @@ The details of interacting with the native date input control are encapsulated i
 
 ### `<MultivaluedInput>`
 
-Before diving into the component, let's review how assignments to variables that accept multiple assignments are different from "normal" assignments. If we think about options for a bicycle, you may have an **options** variable with values **bottle** and **carrier**. We can display that in a UI like this:
+The `<MultivaluedInput>` component renders variables that allow multiple assignments, known in the Configuration API as *multi-assign variables*. Before diving in to the component, let's review how multi-assign variables work using the options of a bicycle as an example.
+
+Say that **options** is a multi-assign variable with two values **bottle** and **carrier**. We can display the variable in a UI like this:
 
 ```
 Options
   Bottle    🔘 Yes   🔘 No
   Carrier   🔘 Yes   🔘 No
 ```
-
 For each value:
 
-- The user can select "yes, I want this option" or "no, I don't want this option".
-- The system can select "yes" or "no" because of a rule.
-- The system can mark "yes" or "no" as incompatible.
+- The user can select 'Yes' (I want this option) or 'No' (I don't want this option).
+- The system can select 'Yes' or 'No' due to defaults or rules.
+- The system can mark 'Yes' or 'No' as incompatible due to rules.
 
-This means that, when we make assignments and render the current configuration, we need more than just the variable and value: We also need to know if it "yes" or "no". In the `/configure` endpoint, the "yes" case is the considered the typical case and is treated without special attention. The "no" case is called "excluded".
+When we make assignments and render the current configuration, we need more than just variable and value: we also need to know if the value is included in the configuration ('Yes') or excluded ('No'). The 'Yes' case is handled the same as a normal value assignment. For the 'No' case, we need to examine the `excluded` state of the value; if it has an `assigned` property, then the value should be excluded ('No').
 
-Below is a sample response for a variable that accepts multiple assignments. As we can see, the `values` have an extra `excluded` state.
+Below is a sample response for a multi-assign variable. As we can see, the variable has a property `allowMultipleAssignments`, and the variable's values have an extra `excluded` state. 
 
 ```json
 {
@@ -513,10 +514,10 @@ Below is a sample response for a variable that accepts multiple assignments. As 
 
 Here we can see:
 
-- The **BOTTLE** value's exclude state is assignned by the user, thus the user has selected that he doesn't want a bottle.
-- The **CARRIER** value's include state is assigned by the user and its exclude state is incompatible; thus the user has selected that he wants a carrier, and, furthermore, he cannot choose not to have a carrier.
+- The **BOTTLE** value's `excluded` state is assigned by the user. The user has selected that he doesn't want a bottle.
+- The **CARRIER** value is assigned by the user. The user has selected that he wants a carrier. Further, the carrier's `excluded` state is incompatible; so in the future, if the user selects 'No' for carrier, one or more other user assignments will be removed by the configurator.
 
-Likewise, when we make assignments, we need to specify if we are assigning to the include or exclude state. To assign "no" to bottle, and "yes" to carrier, we need the following assignments:
+Likewise, when we make assignments, we need to specify if we are assigning to the include or exclude state. To assign 'No' to bottle and 'Yes' to carrier we need these assignments:
 
 ```javascript
 [
@@ -525,7 +526,7 @@ Likewise, when we make assignments, we need to specify if we are assigning to th
 ];
 ```
 
-The `<MultivalueInput>` renders a UI like the one above with two options for each value (so the user can "include" or "exclude" the value).
+The `<MultivalueInput>` renders a UI like the one above with two options for each value (so the user can 'include' or 'exclude' the value).
 
 ```jsx
 class MultivaluedInput extends React.Component {
