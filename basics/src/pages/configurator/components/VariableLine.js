@@ -4,6 +4,7 @@ import { Clear } from '../../../components/Icons';
 import VariableInput from './VariableInput';
 import IconButton from './IconButton';
 import {
+  getAssignedValue,
   hasUserAssignedValue,
   isRequiredWithoutAssignment
 } from '../utils/variable-utils';
@@ -51,6 +52,24 @@ function Issues({ variable }) {
   return <InvalidMark issues={variable.issues} />;
 }
 
+const AssignedChars = {
+  byRule: 'R',
+  byUser: 'U',
+  byDefault: 'D',
+  byPhase: 'P'
+};
+
+function AssignedByMark({ assignedValue }) {
+  if (!assignedValue) {
+    return <div className="assignment-mark" />;
+  }
+  return (
+    <div className="assignment-mark assignment-mark-assigned">
+      {AssignedChars[assignedValue.assigned]}
+    </div>
+  );
+}
+
 /**
  * `<VariableLine>` component renders
  *
@@ -70,6 +89,7 @@ function VariableLine({ variable, removedAssignments, onAssign, onUnassign }) {
         <Issues variable={variable} />
       </div>
       <div className="variable-line-input">
+        <AssignedByMark assignedValue={getAssignedValue(variable)} />
         <VariableInput
           removedAssignments={removedAssignments}
           variable={variable}

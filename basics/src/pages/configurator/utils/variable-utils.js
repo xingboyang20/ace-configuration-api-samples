@@ -30,7 +30,9 @@ export const hasAssignedValue = variable =>
  * Does the variable have any system assigned value.
  */
 export const hasSystemAssignedValue = variable =>
-  getValuesWithState(variable).some(v => v.assigned === 'bySystem');
+  getValuesWithState(variable).some(
+    v => v.assigned === 'byRule' || v.assigned === 'byPhase'
+  );
 
 /**
  * Does the variable have any user assigned value.

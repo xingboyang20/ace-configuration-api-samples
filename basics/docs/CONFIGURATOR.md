@@ -27,7 +27,9 @@ The `/configure` endpoint is designed for building interactive configurators. Th
 
 - The endpoint responds with a structure of `sections`, `variables` and `values`. This structure depends on the product we're configuring and a client application can use this structure to organize the the variables/values for the user.
 - The names of the `sections`, `variables` and `values` are translations and you can request a translation in a different language (if provided in the VT Package)
-- The value states in the response are simple and designed for a UI. A given value in the response can be `assigned: "byUser"`, `assigned: "bySystem"` or `incompatible`.
+- The value states in the response are simple and designed for a UI. There are two fields on each value that indicates the state:
+  - `assigned` can be `byUser`, `byRule`, `byDefault`, `byPhase` or `undefined` and indicates why it is assigned. It if `undefined` it the value is not assigned.
+  - `incompatible` is true if value can't be assigned without removing other user assignments.
 
 The endpoint response looks like this:
 
