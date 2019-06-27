@@ -481,11 +481,11 @@ Options
 
 For each value:
 
-- The user can assign "yes, I want this option" or "no, I don't want this option".
-- The system can assign "yes" or "no".
+- The user can select "yes, I want this option" or "no, I don't want this option".
+- The system can select "yes" or "no" because of a rule.
 - The system can mark "yes" or "no" as incompatible.
 
-This means that, when we make assignments and render the current configuration, we need more than variable and value. We also need to know if it "yes" or "no". In the `/configure` endpoint the "yes" case is the considered the typical case and is treated without special attention. The "no" case is called "excluded".
+This means that, when we make assignments and render the current configuration, we need more than just the variable and value: We also need to know if it "yes" or "no". In the `/configure` endpoint, the "yes" case is the considered the typical case and is treated without special attention. The "no" case is called "excluded".
 
 Below is a sample response for a variable that accepts multiple assignments. As we can see, the `values` have an extra `excluded` state.
 
@@ -513,15 +513,15 @@ Below is a sample response for a variable that accepts multiple assignments. As 
 
 Here we can see:
 
-- The **CARRIER** value's include state is assigned by the user and its exclude state is incompatible, this means that you can't choose that you don't want want a carrier.
-- The **BOTTLE** value's exclude state is assignned by the user, this means that the user has chosen that he doesn't want a bottle.
+- The **BOTTLE** value's exclude state is assignned by the user, thus the user has selected that he doesn't want a bottle.
+- The **CARRIER** value's include state is assigned by the user and its exclude state is incompatible; thus the user has selected that he wants a carrier, and, furthermore, he cannot choose not to have a carrier.
 
-Likewise, when we make assignments, we need to specify if we are assigning to the include or exclude state. To assign "yes" to bottle and "no" to carrier we need these assignments:
+Likewise, when we make assignments, we need to specify if we are assigning to the include or exclude state. To assign "no" to bottle, and "yes" to carrier, we need the following assignments:
 
 ```javascript
 [
-  { variableId: 'OPTIONS', value: 'BOTTLE' },
-  { variableId: 'OPTIONS', value: 'CARRIER', exclude: true }
+  { variableId: 'OPTIONS', value: 'BOTTLE', exclude: true },
+  { variableId: 'OPTIONS', value: 'CARRIER' }
 ];
 ```
 
@@ -622,15 +622,15 @@ class MultivaluedOption extends React.Component {
 
 ## Conflict resolution
 
-The input components (`<Dropdown/>`, `<MultivaluedInput>` etc.) render **incompatible** values, for example the `<Dropdown>` component render a gray background for incompatible values. Render incompatible values is a choice you can make when building a configurator, for simple wizard style configurators it may be a better user experience to hide incompatible values.
+The input components (`<Dropdown/>`, `<MultivaluedInput>` etc.) render **incompatible** values, for example the `<Dropdown>` component renders a gray background for incompatible values. Whether or not you want to render incompatible values is a choice you can make when building a configurator. For simple, wizard-style configurators it may be a better user experience to hide incompatible values.
 
-When we render incompatible values, we need to handle what happens when a user chooses such a value. We call conflict resolution, we consider incompatible values to be in conflict with the current configuration. When assigning incompatible values the `/configure` endpoint will respond with a list of assignments that have been removed to keep the configuration valid. We want to display this information to the user and let her choose if she wants to keep the conflicting assignment and remove the previous assignments or to ignore the conflicting assignment and keep the previous assignments.
+When we render incompatible values, we also need to handle what happens when a user selects such a value. We use the term _conflict resolution,_ to cover how the configurator handles incompatible choices.  When assigning incompatible values, the `/configure` endpoint will respond with a list of assignments that have been removed to keep the configuration valid. We want to display this information to the user and let her choose if she wants to keep the conflicting assignment and remove the previous assignments or to ignore the conflicting assignment and keep the previous assignments.
 
 We do that in a dialog like this:
 
 ![conflict dialog](./conflict.png)
 
-> **NOTE** this is just one way to implement conflict resolution another typical pattern is "undo". Where we just make the assignment and inform the user of what got removed and allow her to undo the last assignment.
+> **NOTE** this is just one way of implementing conflict resolution in the configurator. Another typical pattern is just to just perform the assignment and allow the user to undo the operation. That is, just make the assignment and inform the user of what was removed, and allow her to undo the last assignment.
 
 ### `<ConflictDialog>`
 
@@ -687,7 +687,7 @@ function ConflictDialog({ conflict, onAccept, onReject }) {
 
 The `<ConflictDialog>` expects a `conflict` object that has a `currentAssignment` and a list of `removedAssingments` and two functions or handling acceptance and rejection.
 
-The creation of the `conflict` object and implementation of the `onAccept` and `onReject` is done in the `<Configurator>` component. After we have received a response from the server (See the [Getting started](#getting-started) section for details) we want to check for conflicts.
+The creation of the `conflict` object and the implementation of the `onAccept` and `onReject` is done in the `<Configurator>` component. After we have received a response from the server (see the [Getting started](#getting-started) section for details), we want to check for conflicts.
 
 ```javascript
 // update the state when new sections with the
@@ -707,13 +707,13 @@ if (conflict) {
 }
 ```
 
-We use the `getConflict` function from the `utils/variable-utils.js` to check for conflicts. If there is a conflict, we update the component state with the conflict object. We also add the result as `nextResult` to the component state, this allows us to apply this result if the user accepts the conflicting assignment.
+We use the `getConflict` function from the `utils/variable-utils.js` to check for conflicts. If there is a conflict, we update the component state with the conflict object. We also add the result as `nextResult` to the component state; this allows us to apply this result if the user accepts the conflicting assignment.
 
 #### Accepting the conflict
 
-If the user accepts the conflict we want to:
+If the user accepts the conflict, we want to:
 
-- Prune our local assignments array, so it matches the current list of assignments. We do that by removing the assignments that got removed by the server.
+- Prune our local assignments array so it matches the current list of assignments. We do that by removing the assignments that got removed by the server.
 - Use the stored `nextResult` to re-render the configurator.
 
 ```javascript
@@ -733,10 +733,10 @@ handleAcceptConflict = () => {
 
 #### Rejecting the conflict
 
-If the user rejects the conflict we want to:
+If the user rejects the conflict, we want to:
 
 - Remove the `conflict` object from our state.
-- Remove the conflicting assignment from the local assignments array
+- Remove the conflicting assignment from the local assignments array.
 
 ```javascript
 handleRejectConflict = () => {
@@ -749,7 +749,7 @@ handleRejectConflict = () => {
 
 # Dealing with issues
 
-Under certain circumstances the configure API is not able to ensure that the configuration is valid, this can occur for product models extracted from SAP or product models with arithmetic rules. When the configuration is invalid, the response contains "issues".
+In some cases the configure API is not able to ensure that the configuration is valid. This can occur for product models extracted from SAP or product models with arithmetic rules. When the configuration is invalid, the response contains "issues".
 
 In a configurator application, we display these issues to the user. We do this in the `<InvalidMark>` and `<IssuesDialog>`. The `<InvalidMark>` gets rendered if there are any issues.
 
