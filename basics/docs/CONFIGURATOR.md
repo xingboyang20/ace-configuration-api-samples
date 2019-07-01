@@ -88,7 +88,10 @@ configure = async assignments => {
       }
     });
 
-    this.setState({ sections: result.sections });
+    this.setState({
+      sections: result.sections,
+      removedAssignments: result.removedAssignments
+    });
   } catch (e) {
     // error handling left out for brevity
   }
@@ -100,6 +103,8 @@ The `configure` function calls the imported `api/configure` function which handl
 - The id (`productId`) of the product to configure which we get by looking in the URL.
 - The path (`packagePath`) of the package that contains the product which we get from the variable defined in the `.env` file.
 - Any assignments (`assignments`) passed into the function as arguments, see section about [making assignments](#making-assignments).
+
+After we get a response from the endpoint, we update the component state with `sections` and `removedAssignments`. `sections` contains a structuring of variables we can use when we [render the UI](#UI-from-response). `removedAssignments` contains  the [assignments](#making-assignments) from our request that were removed to keep the configuration valid. We can use them to display messages to users that they tried to assign invalid values.
 
 We call this function when the component is mounted.
 
@@ -136,6 +141,8 @@ The `handleActiveTabChange` function is called by the `<Tab>` component when the
 A `section` in the response has a list of variables and a list of potential (sub)sections. We use the `<Section>` component to render a `section`. We do this by rendering `<VariableLine>`s for each variable and `<Sections>`s for each subsection, like so:
 
 ```jsx
+import { showVariable } from '../utils/variable-utils.js';
+
 // Some variables may be hidden and we don't want to render those.
 const visibleVariables = section.variables.filter(showVariable);
 
@@ -473,7 +480,7 @@ The details of interacting with the native date input control are encapsulated i
 
 ### `<MultivaluedInput>`
 
-The `<MultivaluedInput>` component renders variables that allow multiple assignments, known in the Configuration API as *multi-assign variables*. Before diving in to the component, let's review how multi-assign variables work using the options of a bicycle as an example.
+The `<MultivaluedInput>` component renders variables that allow multiple assignments, known in the Configuration API as _multi-assign variables_. Before diving in to the component, let's review how multi-assign variables work using the options of a bicycle as an example.
 
 Say that **options** is a multi-assign variable with two values **bottle** and **carrier**. We can display the variable in a UI like this:
 
@@ -482,6 +489,7 @@ Options
   Bottle    🔘 Yes   🔘 No
   Carrier   🔘 Yes   🔘 No
 ```
+
 For each value:
 
 - The user can select 'Yes' (I want this option) or 'No' (I don't want this option).
@@ -490,7 +498,7 @@ For each value:
 
 When we make assignments and render the current configuration, we need more than just variable and value: we also need to know if the value is included in the configuration ('Yes') or excluded ('No'). The 'Yes' case is handled the same as a normal value assignment. For the 'No' case, we need to examine the `excluded` state of the value; if it has an `assigned` property, then the value should be excluded ('No').
 
-Below is a sample response for a multi-assign variable. As we can see, the variable has a property `allowMultipleAssignments`, and the variable's values have an extra `excluded` state. 
+Below is a sample response for a multi-assign variable. As we can see, the variable has a property `allowMultipleAssignments`, and the variable's values have an extra `excluded` state.
 
 ```json
 {
@@ -627,13 +635,13 @@ class MultivaluedOption extends React.Component {
 
 The input components (`<Dropdown/>`, `<MultivaluedInput>` etc.) render **incompatible** values, for example the `<Dropdown>` component renders a gray background for incompatible values. Whether or not you want to render incompatible values is a choice you can make when building a configurator. For simple, wizard-style configurators it may be a better user experience to hide incompatible values.
 
-When we render incompatible values, we also need to handle what happens when a user selects such a value. We use the term _conflict resolution,_ to cover how the configurator handles incompatible choices.  When assigning incompatible values, the `/configure` endpoint will respond with a list of assignments that have been removed to keep the configuration valid. We want to display this information to the user and let her choose if she wants to keep the conflicting assignment and remove the previous assignments or to ignore the conflicting assignment and keep the previous assignments.
+When we render incompatible values, we also need to handle what happens when a user selects such a value. We use the term _conflict resolution,_ to cover how the configurator handles incompatible choices. When assigning incompatible values, the `/configure` endpoint will respond with a list of assignments that have been removed to keep the configuration valid. We want to display this information to the user and let her choose if she wants to keep the conflicting assignment and remove the previous assignments or to ignore the conflicting assignment and keep the previous assignments.
 
 We do that in a dialog like this:
 
 ![conflict dialog](./conflict.png)
 
-> **NOTE** this is just one way of implementing conflict resolution in the configurator. Another typical pattern is just to just perform the assignment and allow the user to undo the operation. That is, just make the assignment and inform the user of what was removed, and allow her to undo the last assignment.
+> **NOTE** this is only one way of implementing conflict resolution in the configurator. Another typical pattern is to just perform the assignment and allow the user to undo the operation. That is, just make the assignment and inform the user of what was removed, and allow her to undo the last assignment.
 
 ### `<ConflictDialog>`
 
@@ -752,9 +760,9 @@ handleRejectConflict = () => {
 
 # Dealing with issues
 
-In some cases the configure API is not able to ensure that the configuration is valid. This can occur for product models extracted from SAP or product models with arithmetic rules. When the configuration is invalid, the response contains "issues".
+In some cases, the Configuration API chooses to not auto-resolve all conflicts, but instead allows the configuration to be invalid. This can occur for product models extracted from SAP or product models with arithmetic rules. When the configuration is invalid, the response contains "issues".
 
-In a configurator application, we display these issues to the user. We do this in the `<InvalidMark>` and `<IssuesDialog>`. The `<InvalidMark>` gets rendered if there are any issues.
+In a configurator application, we display these issues to the user. We do this in the `<InvalidMark>` and `<IssuesDialog>` components. The `<InvalidMark>` gets rendered if there are any issues.
 
 ```jsx
 class InvalidMark extends React.Component {
@@ -776,8 +784,7 @@ class InvalidMark extends React.Component {
           className="invalid-mark"
           onClick={() => this.setState({ showDialog: !showDialog })}
         >
-          Invalid ({issues.length === 1 ? '1 issue' : `${issues.length} issues`}
-          )
+          Invalid ({issues.length === 1 ? '1 issue' : `${issues.length} issues`})
         </button>
         <IssuesDialog
           issues={issues}

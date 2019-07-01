@@ -1,6 +1,6 @@
-## Products Search Sample
+## Product Search Sample
 
-The products search example shows how to create a small application that allows users to search for products in a package on the CLM Platform.
+The product search sample shows how to create a small application that allows users to search for products in a package on the CLM Platform.
 
 The application we are building looks like this:
 

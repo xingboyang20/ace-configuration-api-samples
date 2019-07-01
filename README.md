@@ -16,4 +16,9 @@ In order to run the examples, you need to:
 - Have an installation of **CLM Platform** running.
 - Have the iHear sample package published to the storage. Refer to the CLM Platform documentation for instructions on how to do that.
 
-To follow along with the samples, you need to be familiar with building web apps with [React](https://reactjs.org/). For the `iHear` sample you also need a minimal understanding of [TypeScript](https://www.typescriptlang.org/).
+To follow along with the samples, you need to be familiar with:
+
+- Building web apps with [React](https://reactjs.org/).
+- The basic concepts in the CLM Platform, such as `sections`, `variables`, `values`, `assignments` etc. refer to the CLM Platform documentation.
+
+For the `iHear` sample you also need a minimal understanding of [TypeScript](https://www.typescriptlang.org/).

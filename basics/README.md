@@ -12,7 +12,6 @@ It includes:
 Before running the application for the first time, change the settings in the `.env` file to match your local setup of the CLM Platform:
 
 - Change the `REACT_APP_API_URL` to the URL of your running configurator service.
-
 - Change the `REACT_APP_PACKAGE_PATH` to reference the published VT package you want to use.
 
 For example:
@@ -36,7 +35,7 @@ npm start
 
 ## Structure
 
-The project has the following strucure:
+The project has the following structure:
 
 ```
 ├── docs                    # documentation (Start here)
@@ -47,11 +46,14 @@ The project has the following strucure:
     └── pages
         ├── configurator    # example configurator using the /configure endpoint
         └── product-search  # example using the /products endpoint
-        
+
 ```
 
 This project is created with [Create React App](https://facebook.github.io/create-react-app/). The React documentation has a lot valuable information about topics like _Adding styles and assets_, _Deployment_, _Editor Setup_, and so on.
 
 ## Making it your own
 
-The intention of this sample is to act as a starting point for building your own configurator. To learn more, start by reading the [configurator documention](docs/CONFIGURATOR.md).
+The intention of this sample is to act as a starting point for building your own configurator. To learn more, continue by reading the
+
+- [Product Search Sample](docs/PRODUCT_SEARCH.md) documentation
+- [Configurator Sample](docs/CONFIGURATOR.md) documentation
