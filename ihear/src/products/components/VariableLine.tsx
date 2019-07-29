@@ -1,5 +1,4 @@
 import React from 'react';
-import { getAssignableValues } from '../../api/variable';
 import {
   Assignment,
   IncompatibleAssignment,
@@ -31,7 +30,7 @@ const VariableLine: React.SFC<VariableLineProps> = ({
       <h5 className="name">{variable.name}</h5>
       {description && <div className="description">{description}</div>}
       <div>
-        {getAssignableValues(variable).map(value => (
+        {variable.values.map(value => (
           <ValueToggle
             key={value.value}
             onAssign={(value: Value) =>

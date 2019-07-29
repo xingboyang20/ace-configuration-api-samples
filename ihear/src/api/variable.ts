@@ -14,15 +14,6 @@ const getValuesWithState = (variable: Variable) =>
     : variable.values;
 
 /**
- * Get all values that can be assigned. Necessary until the CLM Cloud APIs gets
- * updated to use VT SDK 2.0
- */
-export const getAssignableValues = (variable: Variable): Value[] =>
-  variable.values.filter(
-    value => !(value.state === 'Unavailable' && value.justification === 'Phase')
-  );
-
-/**
  * Get the first value assigned to the variable.
  */
 export const getAssignedValue = (variable: Variable) =>
@@ -38,7 +29,9 @@ export const hasAssignedValue = (variable: Variable) =>
  * Does the variable have any system assigned value.
  */
 export const hasSystemAssignedValue = (variable: Variable) =>
-  getValuesWithState(variable).some(v => v.assigned === 'bySystem');
+  getValuesWithState(variable).some(
+    v => v.assigned === 'byRule' || v.assigned === 'byPhase'
+  );
 
 /**
  * Does the variable have any user assigned value.

@@ -18,7 +18,7 @@ const SectionConfigurator: React.SFC<SectionConfiguratorProps> = ({
   return (
     <section>
       <h3>{section.name}</h3>
-      {section.sections[0].variables.map(variable => (
+      {section.variables.map(variable => (
         <VariableLine
           variable={variable}
           key={variable.id}

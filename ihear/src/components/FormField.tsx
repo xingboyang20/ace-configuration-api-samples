@@ -7,7 +7,7 @@ type FormFieldProps = {
   placeholder: string;
 };
 
-const FormField: React.SFC<FormFieldProps> = ({ label, placeholder }) => {
+function FormField({ label, placeholder }: FormFieldProps) {
   return (
     <div className="form-field">
       <Label text={label}>
@@ -27,6 +27,6 @@ const FormField: React.SFC<FormFieldProps> = ({ label, placeholder }) => {
       `}</style>
     </div>
   );
-};
+}
 
 export default FormField;

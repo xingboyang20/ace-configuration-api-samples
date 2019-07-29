@@ -1,10 +1,10 @@
-# Configurator Sample
+# Configurator sample
 
-The configurator example shows how to create a small application that allows users to configure a product in a package on the CLM Platform.
+This sample shows how to create a small application that allows users to configure a product in a VT package on the CLM Platform.
 
 The application we are building looks like this:
 
-![Configurator sample](./configurator.gif)
+![Configurator screenshot](./configurator.gif)
 
 This document describes how to build this basic configurator. It covers the following topics:
 
@@ -26,7 +26,7 @@ We start with a quick review of the `/configure` endpoint. The endpoint is state
 The `/configure` endpoint is designed for building interactive configurators. This means that:
 
 - The endpoint responds with a structure of `sections`, `variables` and `values`. This structure depends on the product we're configuring and a client application can use this structure to organize the the variables/values for the user.
-- The names of the `sections`, `variables` and `values` are translations and you can request a translation in a different language (if provided in the VT Package)
+- The names of the `sections`, `variables` and `values` are translations and you can request a translation in a different language (if provided in the VT package)
 - The value states in the response are simple and designed for a UI. There are two fields on each value that indicates the state:
   - `assigned` can be `byUser`, `byRule`, `byDefault`, `byPhase` or `undefined` and indicates why it is assigned. It if `undefined` it the value is not assigned.
   - `incompatible` is true if value can't be assigned without removing other user assignments.
@@ -104,7 +104,7 @@ The `configure` function calls the imported `api/configure` function which handl
 - The path (`packagePath`) of the package that contains the product which we get from the variable defined in the `.env` file.
 - Any assignments (`assignments`) passed into the function as arguments, see section about [making assignments](#making-assignments).
 
-After we get a response from the endpoint, we update the component state with `sections` and `removedAssignments`. `sections` contains a structuring of variables we can use when we [render the UI](#UI-from-response). `removedAssignments` contains  the [assignments](#making-assignments) from our request that were removed to keep the configuration valid. We can use them to display messages to users that they tried to assign invalid values.
+After we get a response from the endpoint, we update the component state with `sections` and `removedAssignments`. `sections` contains a structuring of variables we can use when we [render the UI](#UI-from-response). `removedAssignments` contains the [assignments](#making-assignments) from our request that were removed to keep the configuration valid. We can use them to display messages to users that they tried to assign invalid values.
 
 We call this function when the component is mounted.
 

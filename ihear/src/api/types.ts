@@ -14,7 +14,7 @@ export type Value = {
   name: string;
   value: string;
   incompatible: boolean;
-  assigned?: 'bySystem' | 'byUser';
+  assigned?: 'byRule' | 'byPhase' | 'byDefault' | 'byUser';
   excluded?: Value;
   state: 'Available' | 'Unavailable' | 'Selected' | 'Inferred';
   justification: 'None' | 'Rule' | 'Assignment' | 'Default' | 'Phase';
