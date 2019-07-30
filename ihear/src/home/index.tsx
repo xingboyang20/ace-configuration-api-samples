@@ -42,8 +42,9 @@ function HelpOverlay({ brochureModels, history }) {
       onDismiss={() => history.replace('/home')}
     >
       <div className="text">
-        {/*<div className="github-banner">
-            <a href="https://github.com/configit-samples/clm">
+        {
+          <div className="github-banner">
+            <a href="https://github.com/configit-samples/clm-configuration">
               <img
                 width="149"
                 height="149"
@@ -53,7 +54,8 @@ function HelpOverlay({ brochureModels, history }) {
                 data-recalc-dims="1"
               />
             </a>
-          </div>*/}
+          </div>
+        }
         <h1 className="title">iHear sample</h1>
         <div className="fill">
           <p>
@@ -74,16 +76,18 @@ function HelpOverlay({ brochureModels, history }) {
               </Link>
             ))}
           </p>
-          {/*<p>
+          {
+            <p>
               Browse the source code at{' '}
               <a
-                href="https://github.com/configit-samples/clm"
+                href="https://github.com/configit-samples/clm-configuration"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                https://github.com/configit-samples//clm
+                https://github.com/configit-samples/clm-configuration
               </a>
-            </p>*/}
+            </p>
+          }
           <p>
             Read more about CLM at{' '}
             <a
@@ -137,6 +141,7 @@ function HelpOverlay({ brochureModels, history }) {
         }
         :global([data-reach-dialog-content]) {
           width: 90vw;
+          padding: 0;
         }
         .actions {
           display: flex;
