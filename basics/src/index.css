@@ -20,7 +20,7 @@ body {
   position: relative;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  background-color: #02225a;
+  background-color: rgb(31, 71, 120);
 }
 input,
 button,
@@ -72,8 +72,4 @@ a:hover {
 }
 ::-webkit-scrollbar-thumb:horizontal {
   min-width: 10px;
-}
-
-.content {
-  margin-top: 60px;
 }

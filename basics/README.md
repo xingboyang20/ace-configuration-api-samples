@@ -2,10 +2,11 @@
 
 This sample application demonstrates how to use the CLM Platform Configuration API.
 
-It includes:
+It includes several parts:
 
 - [Product search](docs/PRODUCT_SEARCH.md)
 - [Configurator](docs/CONFIGURATOR.md)
+- [Price](docs/PRICE.md)
 
 ## Getting started
 
@@ -55,5 +56,6 @@ This project is created with [Create React App](https://facebook.github.io/creat
 
 The intention of this sample is to act as a starting point for building your own configurator. To learn more, continue by reading the
 
-- [Product Search Sample](docs/PRODUCT_SEARCH.md) documentation
-- [Configurator Sample](docs/CONFIGURATOR.md) documentation
+- [Product search sample](docs/PRODUCT_SEARCH.md) documentation
+- [Configurator sample](docs/CONFIGURATOR.md) documentation
+- [Price sample](docs/PRICE.md) documentation

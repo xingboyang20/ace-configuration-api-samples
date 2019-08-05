@@ -16,14 +16,15 @@ import { getConflict } from './utils/variable-utils';
 import ConflictDialog from './components/ConflictDialog';
 import Toolbar, { ToobarButton } from '../../components/Toolbar';
 import { Reset } from '../../components/Icons';
+import { globalArguments } from '../../globalArguments';
 
 /**
- * Component shown if product Id id missing from URL.
+ * Component shown if product Id is missing from URL.
  */
 function NoProductIdPage() {
   return (
     <Page>
-      <div>
+      <div className="no-product-id-page">
         <h2>Product id is missing</h2>
         <p>
           To start the configurator specify a product id in the URL, for example{' '}
@@ -39,12 +40,12 @@ function NoProductIdPage() {
 }
 
 /**
- * Example of how to use the `/configure` api to create an interactive
+ * Example of how to use the `/configure` endpoint to create an interactive
  * configurator.
  *
  * The `<Configurator>` component is the top level component of the interactive
  * configurator. It manages state and pushes state changes from the `/configure`
- * api down to sub component that renders the configuration result.
+ * endpoint down to sub component that renders the configuration result.
  *
  * The interactive configurator has the following structure.
  *
@@ -71,12 +72,14 @@ function NoProductIdPage() {
 class Configurator extends React.Component {
   assignments = [];
 
+  quantity = { value: 1, unit: 'EA' };
+
   state = {
     activeTabIndex: 0
   };
 
   componentDidMount() {
-    this.configure();
+    this.configure(this.quantity);
   }
 
   handleActiveTabChange = activeTabIndex => this.setState({ activeTabIndex });
@@ -87,8 +90,11 @@ class Configurator extends React.Component {
    *  * When this component is mounted (to get initial configuration)
    *  * When users assign/unassign values in the configurator
    */
-  configure = async (assignments = [], currentAssignment = null) => {
+  configure = async (quantity, assignments = [], currentAssignment = null) => {
     const { productId } = this.props.match.params;
+    if (!productId) {
+      return;
+    }
     const packagePath = process.env.REACT_APP_PACKAGE_PATH;
 
     try {
@@ -96,7 +102,9 @@ class Configurator extends React.Component {
         packagePath,
         date: new Date(),
         language: 'EN',
+        globalArguments,
         line: {
+          quantity,
           productId,
           variableAssignments: assignments.map(a => ({
             variableId: a.variable.id,
@@ -126,9 +134,11 @@ class Configurator extends React.Component {
       if (e.type === 'CannotLoadPackage') {
         this.setState({
           error:
-            `Product with id '${productId} doesn't exist ` +
+            `Product with id '${productId}' doesn't exist ` +
             `in package with path '${packagePath}'`
         });
+      } else {
+        throw e;
       }
     }
   };
@@ -142,7 +152,7 @@ class Configurator extends React.Component {
     const currentAssignment = toAssignment(variable, value);
     const newAssignments = assign(this.assignments, currentAssignment);
     this.assignments = newAssignments;
-    this.configure(newAssignments, currentAssignment);
+    this.configure(this.quantity, newAssignments, currentAssignment);
   };
 
   /**
@@ -154,12 +164,12 @@ class Configurator extends React.Component {
     const currentAssignment = toAssignment(variable, value);
     const newAssignments = unassign(this.assignments, currentAssignment);
     this.assignments = newAssignments;
-    this.configure(newAssignments);
+    this.configure(this.quantity, newAssignments);
   };
 
   handleReset = () => {
     this.assignments = reset();
-    this.configure(this.assignments);
+    this.configure(this.quantity, this.assignments);
   };
 
   /**
@@ -193,6 +203,11 @@ class Configurator extends React.Component {
     });
   };
 
+  handleQuantityChange = quantity => {
+    this.quantity = quantity;
+    this.configure();
+  };
+
   render() {
     const { productId } = this.props.match.params;
 
@@ -221,7 +236,7 @@ class Configurator extends React.Component {
           <Toolbar>
             <InvalidMark issues={issues} />
             <ToobarButton onClick={this.handleReset}>
-              <Reset />
+              <Reset width="18px" height="18px" />
             </ToobarButton>
           </Toolbar>
           <Tabs

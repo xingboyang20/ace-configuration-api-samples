@@ -24,16 +24,20 @@ const Toc = () => (
     </h1>
     <p className="toc-lead">
       Examples that illustrate how to build web applications with the CLM
-      Platform Configuration APIs.
+      Platform Configuration API.
     </p>
     <Examples>
       <Example href="/product-search" title="Product search">
-        Use the <code>/products</code> API to find products in a package
+        Use the <code>/products</code> endpoint to find products in a package
       </Example>
 
       <Example href="/configurator" title="Configurator">
-        Use the <code>/configure</code> API to create an interactive
+        Use the <code>/configure</code> endpoint to create an interactive
         configurator
+      </Example>
+
+      <Example href="/pricing" title="Pricing">
+        Use the <code>/price</code> endpoint to show a price report
       </Example>
     </Examples>
   </div>

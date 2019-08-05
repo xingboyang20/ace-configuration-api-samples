@@ -1,9 +1,9 @@
 .page {
   display: flex;
+  flex-direction: column;
   border-radius: 2px;
-  margin: 0 26px;
-  padding-bottom: 20px;
-  height: calc(100vh - 90px);
+  margin: 60px 26px 0 26px;
+  height: calc(100vh - 80px);
   color: rgb(2, 34, 90);
 }
 
@@ -13,4 +13,9 @@
 
 .page-transparent {
   background-color: transparent;
+}
+
+.page-overflow {
+  background-color: white;
+  overflow-y: auto;
 }

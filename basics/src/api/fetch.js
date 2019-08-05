@@ -23,14 +23,11 @@ class ServerError extends Error {
  * - Http headers
  * - Setup cors
  */
-export default (url, method, payload, accessToken) => {
+export default (url, method, payload) => {
   const headers = new Headers();
   headers.append('Accept', 'application/json');
   headers.append('Content-Type', 'application/json');
-  headers.append('Access-Control-Allow-Origin', '*');
-  if (accessToken) {
-    headers.append('Authorization', `Bearer ${accessToken}`);
-  }
+
   const { packagePath, ...otherPayload } = payload;
   const init = {
     method,

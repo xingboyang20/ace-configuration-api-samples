@@ -4,15 +4,15 @@
 }
 
 .toc-example {
-  width: 300px;
+  width: calc(33vw - 60px);
   padding: 36px 28px;
-  margin: 24px;
   background: linear-gradient(
     rgba(255, 255, 255, 0.1),
     rgba(255, 255, 255, 0.2)
   );
   text-decoration: none;
   display: inline-block;
+  margin: 20px;
 }
 
 .toc-example-link {
@@ -36,6 +36,7 @@
   align-items: center;
   flex-direction: column;
   color: white;
+  margin: 30px;
 }
 
 .toc a,

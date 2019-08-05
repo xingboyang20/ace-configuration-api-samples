@@ -63,7 +63,7 @@ _Refer to the CLM Platform documentation for more details._
 
 ## Getting started
 
-We'll start by looking at the `<Configurator>` component defined in the `src/pages/configurator/index.js`. The first thing we need to do is to call the `/configure` endpoint with the id of the product we want to configure.
+We'll start by looking at the `<Configurator>` component defined in `src/pages/configurator/index.js`. The first thing we need to do is to call the `/configure` endpoint with the id of the product we want to configure.
 
 The `<Configurator>` component defines a function called `configure` which we use to call the `/configure` endpoint.
 

@@ -70,6 +70,10 @@ function ProductSummary({ product, showDetails, onToggleDetails }) {
               'Standard'
             )}
           </em>
+          {', '}
+          <em>
+            <a href={`/pricing/${product.id}`}>Price</a>
+          </em>
         </div>
         <div>
           {product.properties.length ? (

@@ -8,6 +8,7 @@ import Toc from './Toc';
 
 import ProductSearchExample from './pages/product-search';
 import ConfiguratorExample from './pages/configurator';
+import PricingExample from './pages/pricing';
 
 import './index.css';
 
@@ -34,6 +35,7 @@ class Root extends React.Component {
               path="/configurator/:productId?"
               component={ConfiguratorExample}
             />
+            <Route path="/pricing/:productId?" component={PricingExample} />
           </main>
         </React.Fragment>
       </Router>
