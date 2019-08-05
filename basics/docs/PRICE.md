@@ -128,7 +128,7 @@ Often the price of a product depends on external factors such as:
 - Who the product is sold to
 - Where the product is manfufactured
 
-Providing these external factors is the job of arguments. Knowing which argumnts are needed depends on how the prices were defined.
+Providing these external factors is the job of arguments. Knowing which arguments are needed depends on how the prices were defined.
 
 It is up to the application that calls the `/price` endpoint to provide the correct arguments. In a real application, arguments may contain data entities such as the customer and salesperson. However, in this sample application, we use hardcoded arguments that match the sample data provided with the CLM platform. These are located in `src/globalArguments.js` as a simple object:
 
