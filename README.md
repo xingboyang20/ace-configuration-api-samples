@@ -22,3 +22,24 @@ To follow along with the samples, you need to be familiar with:
 - The basic concepts in the CLM Platform, such as `sections`, `variables`, `values`, `assignments` etc. refer to the CLM Platform documentation.
 
 For the `iHear` sample you also need a minimal understanding of [TypeScript](https://www.typescriptlang.org/).
+
+## Authenticated APIs 
+The samples in this repo assume that the CLM Platform APIs don't have authentication enabled. The CLM Platform APIs support the following authentication schemes:
+
+* JWT bearer token
+* API Key
+* HTTP basic authentication
+
+You can read more about these on in the CLM Platform documentation. 
+
+To use the sample code with an authenticated API, you need to modify the `/basics/src/api/fetch.js` and `ihear/src/api/fetch.ts` files to send the right authentication information to the API. What you need to send depends on which scheme is enabled on the API. For example, to send an API Key in the basic example add the key to the HTTP headers like so:
+
+ ```javascript
+export default (url, method, payload) => {
+  const headers = new Headers();
+  // Adds API key to HTTP headers
+  headers.append('Authorization', 'ApiKey DAxYmZiNDY1....' );
+  //  Rest of function left out for brevity
+```
+
+The CLM Platform documentation details which HTTP headers that is required for other authentication schemes.
