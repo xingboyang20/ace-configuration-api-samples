@@ -171,7 +171,6 @@ export default class ProductsPage extends React.Component<
         </div>
         <style jsx>{`
           .container {
-            max-height: calc(100vh - 100px);
             display: flex;
             flex-direction: column;
           }
@@ -204,15 +203,13 @@ export default class ProductsPage extends React.Component<
           }
           .all-selections {
             z-index: 4;
+            overflow: auto;
           }
           header {
             z-index: 2;
           }
 
           @media screen and (max-width: 800px) {
-            .container {
-              max-height: unset;
-            }
             .all-selections {
               display: none;
             }

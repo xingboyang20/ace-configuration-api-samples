@@ -17,26 +17,20 @@ class Layout extends React.Component<{
         <style jsx>{`
           .layout {
             height: 100vh;
-            display: grid;
-            grid-gap: 0;
+            display: flex;
+            flex-direction: column;
             padding: 0 20px;
-            grid-template-rows: 52px 1fr 250px;
-            grid-template-columns: auto;
-            grid-template-areas:
-              'header'
-              'content'
-              'footer';
           }
           .header {
-            grid-area: header;
-            z-index: ${theme.APPBAR_ZINDEX};
+            height: 52px;
           }
           .content {
-            grid-area: content;
+            flex: 1;
             margin-bottom: 80px;
           }
           .footer {
-            grid-area: footer;
+            height: 250px;
+            flex-shrink: 0;
           }
         `}</style>
       </div>
