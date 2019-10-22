@@ -41,7 +41,6 @@ function Footer() {
         .footer {
           padding: 30px 50px 100px 50px;
           display: flex;
-
           background: ${theme.GRAY_COLOR_LIGHT};
           margin: 0 -20px 0px -20px;
         }
