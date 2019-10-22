@@ -66,9 +66,16 @@ export default class ProductsPage extends React.Component<
     return session;
   };
 
-  handleAssign = async (assignment: Assignment) => {
+  handleAssign = async (
+    assignment: Assignment,
+    removedAssignments: Assignment[] = []
+  ) => {
     const { assignments = [] } = this.state;
-    const newAssignments = assign(assignment, assignments);
+    let newAssignments = assignments;
+    removedAssignments.forEach(
+      ra => (newAssignments = unassign(ra, newAssignments))
+    );
+    newAssignments = assign(assignment, newAssignments);
     this.configure(newAssignments);
   };
 

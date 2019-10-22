@@ -8,7 +8,10 @@ type IncompatibleTooltipProps = {
   onCheckRemovedAssignments: (
     value: Value
   ) => Promise<IncompatibleAssignment[]>;
-  onAssign: () => void;
+  onAssign: (
+    value: Value,
+    removedAssignments?: IncompatibleAssignment[]
+  ) => void;
 };
 
 type IncompatibleTooltipState = {
@@ -30,8 +33,6 @@ export default class IncompatibleTooltip extends React.Component<
     const { value, onAssign } = this.props;
     const { removedAssignments } = this.state;
 
-    console.log(removedAssignments.map(ra => console.log(ra)));
-
     if (removedAssignments.length === 0) {
       return <div>Loading...</div>;
     }
@@ -52,7 +53,10 @@ export default class IncompatibleTooltip extends React.Component<
           </ul>
         </div>
         <div className="footer">
-          <Button color="light" onClick={onAssign}>
+          <Button
+            color="light"
+            onClick={() => onAssign(value, removedAssignments)}
+          >
             Choose anyway
           </Button>
         </div>

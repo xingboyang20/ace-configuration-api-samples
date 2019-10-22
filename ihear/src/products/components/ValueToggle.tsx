@@ -8,7 +8,10 @@ import { ReactComponent as AlertIcon } from '../../components/Icons/Alert.svg';
 
 export type ValueToggleProps = {
   value: Value;
-  onAssign: (value: Value) => void;
+  onAssign: (
+    value: Value,
+    removedAssignments?: IncompatibleAssignment[]
+  ) => void;
   onUnassign: (value: Value) => void;
   onCheckRemovedAssignments: (
     value: Value
@@ -79,7 +82,7 @@ class ValueToggle extends React.Component<ValueToggleProps> {
           <IncompatibleTooltip
             value={value}
             onCheckRemovedAssignments={onCheckRemovedAssignments}
-            onAssign={() => onAssign(value)}
+            onAssign={onAssign}
           />
         }
       >
