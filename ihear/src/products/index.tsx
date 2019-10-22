@@ -70,11 +70,10 @@ export default class ProductsPage extends React.Component<
     assignment: Assignment,
     removedAssignments: Assignment[] = []
   ) => {
-    const { assignments = [] } = this.state;
-    let newAssignments = assignments;
-    removedAssignments.forEach(
-      ra => (newAssignments = unassign(ra, newAssignments))
-    );
+    let newAssignments = this.state.assignments || [];
+    removedAssignments.forEach(ra => {
+      newAssignments = unassign(ra, newAssignments);
+    });
     newAssignments = assign(assignment, newAssignments);
     this.configure(newAssignments);
   };
