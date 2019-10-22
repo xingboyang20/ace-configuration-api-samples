@@ -11,7 +11,7 @@ import * as theme from '../../components/theme';
 
 type VariableLineProps = {
   variable: Variable;
-  onAssign: (assignment: Assignment) => void;
+  onAssign: (assignment: Assignment, removedAssignments: Assignment[]) => void;
   onUnassign: (assignment: Assignment) => void;
   onCheckRemovedAssignments: (
     assignment: Assignment
@@ -25,6 +25,20 @@ const VariableLine: React.SFC<VariableLineProps> = ({
   onCheckRemovedAssignments
 }) => {
   const description = descriptions[variable.id];
+
+  function handleOnAssign(
+    value: Value,
+    removedAssignments: IncompatibleAssignment[] = []
+  ) {
+    onAssign(
+      { variableId: variable.id, value: value.value },
+      removedAssignments.map(ra => ({
+        variableId: ra.variable.id,
+        value: ra.value.value
+      }))
+    );
+  }
+
   return (
     <div className="variable-line">
       <h5 className="name">{variable.name}</h5>
@@ -33,9 +47,7 @@ const VariableLine: React.SFC<VariableLineProps> = ({
         {variable.values.map(value => (
           <ValueToggle
             key={value.value}
-            onAssign={(value: Value) =>
-              onAssign({ variableId: variable.id, value: value.value })
-            }
+            onAssign={handleOnAssign}
             onUnassign={(value: Value) =>
               onUnassign({ variableId: variable.id, value: value.value })
             }
