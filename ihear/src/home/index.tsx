@@ -38,7 +38,6 @@ function HelpOverlay({ brochureModels, history }) {
         borderRadius: theme.BORDER_RADIUS,
         boxShadow: theme.LIST_SHADOW
       }}
-      initialFocusRef={buttonEl}
       onDismiss={() => history.replace('/home')}
     >
       <div className="text">

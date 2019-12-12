@@ -76,7 +76,7 @@ class ValueToggle extends React.Component<ValueToggleProps> {
         trigger="click"
         arrow={true}
         delay={300}
-        animation="fade"
+        animation="shift"
         theme="light"
         html={
           <IncompatibleTooltip

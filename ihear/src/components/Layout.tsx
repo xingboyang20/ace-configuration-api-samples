@@ -1,5 +1,5 @@
 import React from 'react';
-import * as theme from './theme';
+
 class Layout extends React.Component<{
   header: React.ReactNode;
   footer: React.ReactNode;
