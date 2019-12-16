@@ -32,6 +32,10 @@ export default (url: string, method: string, payload: object) => {
   headers.append('Content-Type', 'application/json');
   headers.append('Access-Control-Allow-Origin', '*');
 
+  if (process.env.REACT_APP_API_KEY) {
+    headers.append('Authorization', 'ApiKey ' + process.env.REACT_APP_API_KEY);
+  }
+
   const init = {
     method,
     headers,
