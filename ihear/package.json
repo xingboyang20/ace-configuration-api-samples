@@ -6,7 +6,6 @@
   "main": "server.js",
   "dependencies": {
     "@reach/dialog": "0.6.4",
-    "auth0": "2.20.0",
     "classnames": "2.2.6",
     "cross-env": "6.0.3",
     "dotenv": "8.2.0",
