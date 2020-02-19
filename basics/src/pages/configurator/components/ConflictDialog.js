@@ -79,7 +79,7 @@ function ConflictDialog({ conflict, onAccept, onReject }) {
                 <li>
                   <FormatAssignment
                     assignment={currentAssignment}
-                    separator="To"
+                    separator="to"
                   />
                 </li>
               </ul>
@@ -87,7 +87,7 @@ function ConflictDialog({ conflict, onAccept, onReject }) {
               <ul>
                 {removedAssignments.map(ra => (
                   <li key={ra.variable.id}>
-                    <FormatAssignment assignment={ra} separator="From" />
+                    <FormatAssignment assignment={ra} separator="from" />
                   </li>
                 ))}
               </ul>

@@ -56,7 +56,9 @@ function ProductSummary({ product, showDetails, onToggleDetails }) {
   return (
     <div className="product-summary">
       <div>
-        <div>{product.name}</div>
+        <div>
+          {product.id} &mdash; {product.name}
+        </div>
         <div>
           <em>{product.description}</em>
         </div>

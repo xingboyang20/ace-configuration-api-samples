@@ -8,7 +8,17 @@ const tabClassName = (index, activeTabIndex) =>
 /**
  * `<Tabs>` component renders tab items for each item in `tabs` props.
  */
-const Tabs = ({ tabs, activeTabIndex, onTabChange, children }) => {
+const Tabs = ({
+  tabs,
+  isScopeComplete,
+  isScopeLocked,
+  onToggleIsScopeLocked,
+  activeTabIndex,
+  onTabChange,
+  children
+}) => {
+  const isActiveTabScopeTab = tabs[0] === 'Scope' && activeTabIndex === 0;
+
   return (
     <>
       <div className="tabs">
@@ -17,12 +27,20 @@ const Tabs = ({ tabs, activeTabIndex, onTabChange, children }) => {
             className={tabClassName(index, activeTabIndex)}
             key={tab + index}
             onClick={_ => onTabChange(index)}
+            disabled={index > 0 && (!isScopeComplete || !isScopeLocked)}
           >
             {tab}
           </button>
         ))}
       </div>
-      <div className="tab-content">{children}</div>
+      <div className="tab-content">
+        {children}
+        {isActiveTabScopeTab && (isScopeComplete || isScopeLocked) ? (
+          <button onClick={onToggleIsScopeLocked}>
+            {isScopeLocked ? 'Unlock scope' : 'Lock scope'}
+          </button>
+        ) : null}
+      </div>
     </>
   );
 };

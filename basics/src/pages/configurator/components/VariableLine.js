@@ -77,7 +77,13 @@ function AssignedByMark({ assignedValue }) {
  * * The Control for assigning values, e.g. <Dropdown>
  * * An Unassign button
  */
-function VariableLine({ variable, removedAssignments, onAssign, onUnassign }) {
+function VariableLine({
+  variable,
+  removedAssignments,
+  onAssign,
+  onUnassign,
+  readOnly
+}) {
   const className = classnames('variable-line', {
     'variable-line-invalid': variable.issues
   });
@@ -88,17 +94,24 @@ function VariableLine({ variable, removedAssignments, onAssign, onUnassign }) {
         {variable.name} <RequiredMark variable={variable} />
         <Issues variable={variable} />
       </div>
+
       <div className="variable-line-input">
-        <AssignedByMark assignedValue={getAssignedValue(variable)} />
-        <VariableInput
-          removedAssignments={removedAssignments}
-          variable={variable}
-          onAssign={onAssign}
-          onUnassign={onUnassign}
-        />
+        {readOnly ? (
+          getAssignedValue(variable).value
+        ) : (
+          <>
+            <AssignedByMark assignedValue={getAssignedValue(variable)} />
+            <VariableInput
+              removedAssignments={removedAssignments}
+              variable={variable}
+              onAssign={onAssign}
+              onUnassign={onUnassign}
+            />
+          </>
+        )}
       </div>
       <div className="variable-line-actions">
-        {hasUserAssignedValue(variable) && (
+        {!readOnly && hasUserAssignedValue(variable) && (
           <UnassignButton variable={variable} onUnassign={onUnassign} />
         )}
       </div>

@@ -12,7 +12,7 @@ import {
   reset
 } from './utils/assignment-utils';
 import './index.css';
-import { getConflict } from './utils/variable-utils';
+import { getConflict, hasAssignedValue } from './utils/variable-utils';
 import ConflictDialog from './components/ConflictDialog';
 import Toolbar, { ToobarButton } from '../../components/Toolbar';
 import { Reset } from '../../components/Icons';
@@ -37,6 +37,21 @@ function NoProductIdPage() {
       </div>
     </Page>
   );
+}
+
+function isScopeComplete(scopeSection) {
+  if (scopeSection.id !== 'Scope') {
+    return true;
+  }
+  return scopeSection.variables.every(v => hasAssignedValue(v));
+}
+
+function isScopeActive(scopeSection) {
+  return scopeSection.id === 'Scope';
+}
+
+function hasScope(sections) {
+  return sections[0].id === 'Scope';
 }
 
 /**
@@ -75,7 +90,8 @@ class Configurator extends React.Component {
   quantity = { value: 1, unit: 'EA' };
 
   state = {
-    activeTabIndex: 0
+    activeTabIndex: 0,
+    isScopeLocked: false
   };
 
   componentDidMount() {
@@ -84,11 +100,23 @@ class Configurator extends React.Component {
 
   handleActiveTabChange = activeTabIndex => this.setState({ activeTabIndex });
 
+  handleToogleScopeLock = () => {
+    const isScopeLocked = this.state.isScopeLocked;
+    if (isScopeLocked) {
+      const scopeSection = this.state.sections[0];
+      this.assignments = this.assignments.filter(a =>
+        scopeSection.variables.find(v => v.id === a.variable.id)
+      );
+      this.configure(this.quantity, this.assignments);
+    }
+    this.setState({ isScopeLocked: !isScopeLocked });
+  };
+
   /**
    * Called when the configuration needs to be recalculated.
    *
-   *  * When this component is mounted (to get initial configuration)
-   *  * When users assign/unassign values in the configurator
+   * * When this component is mounted (to get initial configuration)
+   * * When users assign/unassign values in the configurator
    */
   configure = async (quantity, assignments = [], currentAssignment = null) => {
     const { productId } = this.props.match.params;
@@ -170,6 +198,9 @@ class Configurator extends React.Component {
   handleReset = () => {
     this.assignments = reset();
     this.configure(this.quantity, this.assignments);
+    if (hasScope(this.state.sections)) {
+      this.setState({ activeTabIndex: 0, isScopeLocked: false });
+    }
   };
 
   /**
@@ -217,7 +248,8 @@ class Configurator extends React.Component {
       conflict,
       activeTabIndex,
       error,
-      issues
+      issues,
+      isScopeLocked
     } = this.state;
 
     if (!productId) {
@@ -230,25 +262,32 @@ class Configurator extends React.Component {
       return <Page>Loading…</Page>;
     }
     const activeSection = sections[activeTabIndex];
+
     return (
       <Page variant="transparent">
         <div className="configurator">
           <Toolbar>
             <InvalidMark issues={issues} />
             <ToobarButton onClick={this.handleReset}>
-              <Reset width="18px" height="18px" />
+              <Reset width="12px" height="12px" />
             </ToobarButton>
           </Toolbar>
           <Tabs
             tabs={sections.map(section => section.name)}
             onTabChange={this.handleActiveTabChange}
             activeTabIndex={activeTabIndex}
+            isScopeLocked={isScopeLocked}
+            isScopeComplete={isScopeComplete(sections[0])}
+            onToggleIsScopeLocked={this.handleToogleScopeLock}
           >
             <Section
               section={activeSection}
               onAssign={this.handleOnAssign}
               onUnassign={this.handleOnUnassign}
               removedAssignments={removedAssignments}
+              readOnly={
+                isScopeActive(sections[activeTabIndex]) && isScopeLocked
+              }
             />
           </Tabs>
         </div>

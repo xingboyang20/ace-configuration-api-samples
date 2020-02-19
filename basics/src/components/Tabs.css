@@ -20,6 +20,7 @@
   border-radius: 2px 2px 0 0;
   transition: background-color 200ms ease 0s, color 200ms ease 0s;
 }
+
 .tabs-tab:focus,
 .tabs-tab:active {
   outline: none;
@@ -27,6 +28,12 @@
 
 .tabs-tab:hover {
   background-color: rgb(245, 245, 245);
+}
+
+.tabs-tab:disabled {
+  background-color: white;
+  opacity: 0.5;
+  cursor: default;
 }
 
 .tabs-tab-active {

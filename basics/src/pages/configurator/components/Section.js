@@ -16,6 +16,7 @@ export function Section({
   onAssign,
   onUnassign,
   removedAssignments,
+  readOnly,
   level = 0
 }) {
   const visibleVariables = section.variables.filter(showVariable);
@@ -39,6 +40,7 @@ export function Section({
           onAssign={onAssign}
           onUnassign={onUnassign}
           removedAssignments={removedAssignments}
+          readOnly={readOnly}
         />
       ))}
       {(section.sections || []).map(subSection => (
@@ -49,6 +51,7 @@ export function Section({
           onUnassign={onUnassign}
           removedAssignments={removedAssignments}
           level={level + 1}
+          readOnly={readOnly}
         />
       ))}
     </section>

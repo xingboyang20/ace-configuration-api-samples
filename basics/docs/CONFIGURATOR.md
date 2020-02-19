@@ -297,7 +297,7 @@ handleOnUnassign = (variable, value) => {
 
 These two functions manipulate the `this.assignments` array using the helper function defined in `./utils/assignment-utils.js` and then call the server with the updated assignments.
 
-We pass these two functions down to the components that that let users select values.
+We pass these two functions down to the components that let users select values.
 
 > Now is a good time to look at the two utility files called
 >
@@ -784,7 +784,8 @@ class InvalidMark extends React.Component {
           className="invalid-mark"
           onClick={() => this.setState({ showDialog: !showDialog })}
         >
-          Invalid ({issues.length === 1 ? '1 issue' : `${issues.length} issues`})
+          Invalid ({issues.length === 1 ? '1 issue' : `${issues.length} issues`}
+          )
         </button>
         <IssuesDialog
           issues={issues}

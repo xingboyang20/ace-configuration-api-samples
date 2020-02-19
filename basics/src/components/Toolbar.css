@@ -14,6 +14,7 @@
   height: 32px;
   width: 32px;
   display: flex;
+  justify-content: center;
   transition: background-color 200ms ease 0s, color 200ms ease 0s;
 }
 

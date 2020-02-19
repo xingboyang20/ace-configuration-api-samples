@@ -3,6 +3,7 @@ import Dropdown from './Dropdown';
 import TextInput from './TextInput';
 import MultivaluedInput from './MultivaluedInput';
 import DateInput from './DateInput';
+import RadioImage from './RadioImage';
 
 /**
  * Render different "input" controls dependent on variable type.
@@ -18,6 +19,15 @@ export default function VariableInput({
   onUnassign,
   removedAssignments
 }) {
+  if (variable.id === 'GENDER') {
+    return (
+      <RadioImage
+        variable={variable}
+        onAssign={onAssign}
+        onUnassign={onUnassign}
+      />
+    );
+  }
   if (variable.allowMultipleAssignments) {
     return (
       <MultivaluedInput
