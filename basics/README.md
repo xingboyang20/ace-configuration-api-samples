@@ -1,6 +1,6 @@
 # Basic sample application
 
-This sample application demonstrates how to use the CLM Platform Configuration API.
+This sample application demonstrates how to use Ace Platform's Configuration API.
 
 It includes several parts:
 
@@ -10,15 +10,15 @@ It includes several parts:
 
 ## Getting started
 
-Before running the application for the first time, change the settings in the `.env` file to match your local setup of the CLM Platform:
+Before running the application for the first time, change the settings in the `.env` file to match your local setup of the Ace Platform:
 
 - Change the `REACT_APP_API_URL` to the URL of your running configurator service.
-- Change the `REACT_APP_PACKAGE_PATH` to reference the published VT package you want to use.
+- Change the `REACT_APP_PACKAGE_PATH` to reference the published package you want to use.
 
 For example:
 
 ```
-REACT_APP_API_URL=http://localhost:9010/configurator/v1
+REACT_APP_API_URL=http://localhost:9000/configurator/v1
 REACT_APP_PACKAGE_PATH=samples/ihear
 ```
 

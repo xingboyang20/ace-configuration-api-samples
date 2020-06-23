@@ -25,7 +25,7 @@ const BM_SUB_TITLES = {
   BM_CHILD: 'From infancy to adolescence.',
   BM_INVISIBLE: 'Out of your way. On with your life.',
   BM_MAX: 'Maximum confidence. Minimum profile.',
-  BM_POWER: 'Dynamically adjusts to any situation.'
+  BM_POWER: 'Dynamically adjusts to any situation.',
 };
 
 function HelpOverlay({ brochureModels, history }) {
@@ -36,14 +36,14 @@ function HelpOverlay({ brochureModels, history }) {
       isOpen={true}
       style={{
         borderRadius: theme.BORDER_RADIUS,
-        boxShadow: theme.LIST_SHADOW
+        boxShadow: theme.LIST_SHADOW,
       }}
       onDismiss={() => history.replace('/home')}
     >
       <div className="text">
         {
           <div className="github-banner">
-            <a href="https://github.com/configit-samples/clm-configuration">
+            <a href="https://github.com/configit-samples/ace-configuration-api-samples">
               <img
                 width="149"
                 height="149"
@@ -58,13 +58,13 @@ function HelpOverlay({ brochureModels, history }) {
         <h1 className="title">iHear sample</h1>
         <div className="fill">
           <p>
-            This is a sample configurator application based on the Configit CLM
-            Platform. The sample application tries to mimic a website for a
-            manufacturer of configurable hearing aids.
+            This is a sample configurator application based on Ace Platform. The
+            sample application mimics a website for a manufacturer of
+            configurable hearing aids.
           </p>
           <p>
             Start by choosing one of the products on the home page:{' '}
-            {(brochureModels || []).map(bm => (
+            {(brochureModels || []).map((bm) => (
               <Link
                 key={bm.value}
                 className="bm-link"
@@ -79,22 +79,22 @@ function HelpOverlay({ brochureModels, history }) {
             <p>
               Browse the source code at{' '}
               <a
-                href="https://github.com/configit-samples/clm-configuration"
+                href="https://github.com/configit-samples/ace-configuration-api-samples"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                https://github.com/configit-samples/clm-configuration
+                https://github.com/configit-samples/ace-configuration-api-samples
               </a>
             </p>
           }
           <p>
-            Read more about CLM at{' '}
+            Read more about Ace at{' '}
             <a
-              href="https://www.configit.com/clm"
+              href="https://configit.com/configit-ace/"
               rel="noopener noreferrer"
               target="_blank"
             >
-              https://www.configit.com/clm
+              https://configit.com/configit-ace
             </a>
           </p>
         </div>
@@ -191,7 +191,7 @@ export default class IndexPage extends React.Component<
         </Featured>
         <h4>Build your own</h4>
         <div className="container">
-          {(brochureModels || []).map(bm => (
+          {(brochureModels || []).map((bm) => (
             <ProductCard
               bg={`url(${process.env.PUBLIC_URL}/${bm.value}.jpg)`}
               title={bm.name}

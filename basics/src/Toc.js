@@ -20,11 +20,11 @@ const Example = ({ href, title, children }) => (
 const Toc = () => (
   <div className="toc">
     <h1 className="toc-title">
-      <Logo height="42px" /> — CLM Configuration samples
+      <Logo height="42px" /> — Ace Configuration samples
     </h1>
     <p className="toc-lead">
-      Examples that illustrate how to build web applications with the CLM
-      Platform Configuration API.
+      Examples that illustrate how to build web applications with Ace Platform's
+      Configuration API.
     </p>
     <Examples>
       <Example href="/product-search" title="Product search">

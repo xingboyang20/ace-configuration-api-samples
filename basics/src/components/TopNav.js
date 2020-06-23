@@ -6,7 +6,7 @@ import './TopNav.css';
 const TopNav = () => (
   <div className="topnav">
     <Link to="/" className="topnav-home-link">
-      <Logo /> — CLM Configuration samples
+      <Logo /> — Ace Platform Configuration API samples
     </Link>
   </div>
 );

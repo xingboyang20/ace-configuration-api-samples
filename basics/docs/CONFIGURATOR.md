@@ -1,6 +1,6 @@
 # Configurator sample
 
-This sample shows how to create a small application that allows users to configure a product in a VT package on the CLM Platform.
+This sample shows how to create a small application that allows users to configure a product in a package on Ace Platform.
 
 The application we are building looks like this:
 
@@ -26,7 +26,7 @@ We start with a quick review of the `/configure` endpoint. The endpoint is state
 The `/configure` endpoint is designed for building interactive configurators. This means that:
 
 - The endpoint responds with a structure of `sections`, `variables` and `values`. This structure depends on the product we're configuring and a client application can use this structure to organize the the variables/values for the user.
-- The names of the `sections`, `variables` and `values` are translations and you can request a translation in a different language (if provided in the VT package)
+- The names of the `sections`, `variables` and `values` are translations and you can request a translation in a different language (if provided in the package)
 - The value states in the response are simple and designed for a UI. There are two fields on each value that indicates the state:
   - `assigned` can be `byUser`, `byRule`, `byDefault`, `byPhase` or `undefined` and indicates why it is assigned. It if `undefined` it the value is not assigned.
   - `incompatible` is true if value can't be assigned without removing other user assignments.
@@ -59,7 +59,7 @@ The endpoint response looks like this:
     /* more variables omitted for brevity */
 ```
 
-_Refer to the CLM Platform documentation for more details._
+_Refer to the Ace Platform documentation for more details._
 
 ## Getting started
 
@@ -126,7 +126,7 @@ We start by rendering the tabs like this:
 
 ```jsx
 <Tabs
-  tabs={sections.map(section => section.name)}
+  tabs={sections.map((section) => section.name)}
   onTabChange={this.handleActiveTabChange}
   activeTabIndex={activeTabIndex}
 >
@@ -158,7 +158,7 @@ return (
         {section.name}
       </header>
     )}
-    {visibleVariables.map(variable => (
+    {visibleVariables.map((variable) => (
       <VariableLine
         key={variable.id}
         variable={variable}
@@ -167,7 +167,7 @@ return (
         removedAssignments={removedAssignments}
       />
     ))}
-    {(section.sections || []).map(subSection => (
+    {(section.sections || []).map((subSection) => (
       <Section
         key={`${section.id}-${subSection.id}`}
         section={subSection}
@@ -359,7 +359,7 @@ function Option({ value }) {
   const { name } = value;
 
   const className = classnames({
-    'dropdown-incompatible': value.incompatible
+    'dropdown-incompatible': value.incompatible,
   });
 
   return (
@@ -391,7 +391,7 @@ When we try to assign invalid values, the `/configure` endpoint responds with a 
 
 ```jsx
 class TextInput extends React.Component {
-  handleOnChange = value => {
+  handleOnChange = (value) => {
     const { variable, onAssign, onUnassign } = this.props;
 
     value === '' ? onUnassign(variable) : onAssign(variable, { value });
@@ -406,7 +406,7 @@ class TextInput extends React.Component {
       ? getInvalidMessage(variable, removedAssignment)
       : null;
     const className = classnames('input', {
-      'input-invalid': message
+      'input-invalid': message,
     });
     const displayValue = removedAssignment
       ? removedAssignment.value.value
@@ -439,7 +439,7 @@ As with `<TextInput>` we want to:
 
 ```jsx
 class DateInput extends React.Component {
-  handleOnChange = value => {
+  handleOnChange = (value) => {
     const { variable, onAssign, onUnassign } = this.props;
 
     value ? onAssign(variable, { value }) : onUnassign(variable);
@@ -454,7 +454,7 @@ class DateInput extends React.Component {
       ? getInvalidMessage(variable, removedAssignment)
       : null;
     const className = classnames('input', {
-      'input-invalid': message
+      'input-invalid': message,
     });
 
     let displayValue = removedAssignment
@@ -532,7 +532,7 @@ Likewise, when we make assignments, we need to specify if we are assigning to th
 ```javascript
 [
   { variableId: 'OPTIONS', value: 'BOTTLE', exclude: true },
-  { variableId: 'OPTIONS', value: 'CARRIER' }
+  { variableId: 'OPTIONS', value: 'CARRIER' },
 ];
 ```
 
@@ -549,7 +549,7 @@ class MultivaluedInput extends React.Component {
 
     return (
       <div className="multivalued">
-        {values.map(value => (
+        {values.map((value) => (
           <div className="multivalued-options" key={value.value}>
             <div className="multivalued-options-title">{variable.name}</div>
 
@@ -610,7 +610,7 @@ class MultivaluedOption extends React.Component {
   render() {
     const { value, excluded } = this.props;
     const className = classnames('multivalued-option', {
-      'multivalued-option-incompatible': this.incompatible(value, excluded)
+      'multivalued-option-incompatible': this.incompatible(value, excluded),
     });
     const checked = !!this.assigned(value, excluded);
 
@@ -674,7 +674,7 @@ function ConflictDialog({ conflict, onAccept, onReject }) {
               </ul>
               <div>Removes</div>
               <ul>
-                {removedAssignments.map(ra => (
+                {removedAssignments.map((ra) => (
                   <li key={ra.variable.id}>
                     <FormatAssignment assignment={ra} separator="From" />
                   </li>
@@ -713,7 +713,7 @@ if (conflict) {
   this.setState({
     sections: result.sections,
     removedAssignments: result.removedAssignments,
-    error: null
+    error: null,
   });
 }
 ```
@@ -737,7 +737,7 @@ handleAcceptConflict = () => {
   this.setState({
     conflict: undefined,
     sections: this.state.nextResult.sections,
-    nextResult: null
+    nextResult: null,
   });
 };
 ```
@@ -767,7 +767,7 @@ In a configurator application, we display these issues to the user. We do this i
 ```jsx
 class InvalidMark extends React.Component {
   state = {
-    showDialog: false
+    showDialog: false,
   };
 
   render() {

@@ -1,6 +1,6 @@
 # Price sample
 
-This sample shows how to create an application that lets users view and edit a price sheet for a product in a VT package on the CLM Platform.
+This sample shows how to create an application that lets users view and edit a price sheet for a product in a package on Ace Platform.
 
 The application we are building looks like this:
 
@@ -58,7 +58,7 @@ priceSheet: {
 }
 ```
 
-_Refer to the CLM Platform documentation for more details._
+_Refer to the Ace Platform documentation for more details._
 
 ## Getting started
 
@@ -85,14 +85,14 @@ price = async (quantity, assignments = {}) => {
       line: {
         quantity,
         productId,
-        priceLineAssignments: Object.keys(assignments).map(k => ({
+        priceLineAssignments: Object.keys(assignments).map((k) => ({
           stepId: k,
-          rateValue: assignments[k]
-        }))
-      }
+          rateValue: assignments[k],
+        })),
+      },
     });
     this.setState({
-      priceSheet: result.priceSheet
+      priceSheet: result.priceSheet,
     });
   } catch (e) {
     // error handling left out for brevity
@@ -130,7 +130,7 @@ Often the price of a product depends on external factors such as:
 
 Providing these external factors is the job of arguments. Knowing which arguments are needed depends on how the prices were defined.
 
-It is up to the application that calls the `/price` endpoint to provide the correct arguments. In a real application, arguments may contain data entities such as the customer and salesperson. However, in this sample application, we use hardcoded arguments that match the sample data provided with the CLM platform. These are located in `src/globalArguments.js` as a simple object:
+It is up to the application that calls the `/price` endpoint to provide the correct arguments. In a real application, arguments may contain data entities such as the customer and salesperson. However, in this sample application, we use hardcoded arguments that match the sample data provided with Ace Platform. These are located in `src/globalArguments.js` as a simple object:
 
 ```javascript
 {
@@ -142,7 +142,7 @@ It is up to the application that calls the `/price` endpoint to provide the corr
 }
 ```
 
-**NOTE** When you use other VT packages, make sure to change the arguments to match what the price definition in that package requires.
+**NOTE** When you use other packages, make sure to change the arguments to match what the price definition in that package requires.
 
 ## UI from the response
 
@@ -167,7 +167,7 @@ function PriceSheet({ priceSheet, onAssign }) {
         <col width="200px" />
       </colgroup>
       <tbody>
-        {priceSheet.priceLines.map(priceLine => (
+        {priceSheet.priceLines.map((priceLine) => (
           <PriceLine
             priceLine={priceLine}
             key={priceLine.id}
@@ -198,7 +198,7 @@ It is implemented like this:
 const className = classnames({
   informational: priceLine.status.isInformational,
   invalid: priceLine.status.isInvalid,
-  disabled: priceLine.status.isDisabled
+  disabled: priceLine.status.isDisabled,
 });
 return (
   <tr className={className}>
@@ -297,10 +297,10 @@ It renders:
     <Input
       showEditMarker
       value={quantity.value}
-      onChange={value =>
+      onChange={(value) =>
         onQuantityChange({
           value: Number(value) || 1,
-          unit: quantity.unit
+          unit: quantity.unit,
         })
       }
     />
@@ -308,10 +308,10 @@ It renders:
   <div className="price-header-quantity-unit">
     <Input
       value={quantity.unit}
-      onChange={unit =>
+      onChange={(unit) =>
         onQuantityChange({
           value: quantity.value,
-          unit
+          unit,
         })
       }
     />
@@ -326,7 +326,7 @@ It renders:
 Similarly to [assignments](#making-assignments), we create a function for updating the quantity in the `<Pricing>` component. This updates the quantity field and calls the `/price` endpoint to recalculate the price:
 
 ```javascript
-handleQuantityChange = quantity => {
+handleQuantityChange = (quantity) => {
   this.quantity = quantity;
   this.price(quantity, this.assignments);
 };

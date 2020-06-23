@@ -1,6 +1,6 @@
 ## Product search sample
 
-This sample shows how to create a small application that allows users to search for products in a package on the CLM Platform.
+This sample shows how to create a small application that allows users to search for products in a package on Ace Platform.
 
 The application we are building looks like this:
 
@@ -16,11 +16,11 @@ import products from '../../api/products';
 class ProductSearch extends React.Component {
   state = { isSearching: false, products: [] };
 
-  handleSearch = async searchTerm => {
+  handleSearch = async (searchTerm) => {
     this.setState({ isSearching: true });
     const result = await products({
       packagePath: process.env.REACT_APP_PACKAGE_PATH,
-      searchTerm
+      searchTerm,
     });
     this.setState({ isSearching: false, products: result.products });
   };
@@ -82,7 +82,7 @@ Each product has a name, a description, a flag indicating if it is configurable,
 ```jsx
 const ProductDetails = ({ product }) => (
   <div className="product-details">
-    {product.properties.map(property => (
+    {product.properties.map((property) => (
       <React.Fragment key={property.id}>
         <div>{property.id}</div>
         <div>{property.value}</div>

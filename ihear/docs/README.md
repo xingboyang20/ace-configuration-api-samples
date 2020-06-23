@@ -6,9 +6,9 @@ customize it for one of your own products, follow the steps below.
 ## Prerequisites
 
 This sample assumes you are familiar with the basics of building a configurator
-as shown in the [Configurator sample](../../docs/CONFIGURATOR.md).
+as shown in the [Configurator sample](../../basics/docs/CONFIGURATOR.md).
 
-## 1. Change hardcoded values
+## Step 1 — Change hardcoded values
 
 The application has some hardcoded values that are sent in all requests to
 the `/configure` endpoint. They are hardcoded because they include data that
@@ -25,16 +25,16 @@ const baseRequest: RequestType = {
   line: {
     id: 'ROOT',
     quantity: { value: 1, unit: 'EA' },
-    productId: 'IHEAR'
-  }
+    productId: 'IHEAR',
+  },
 };
 
 const baseAssignments = [
   { variableId: 'MRKT', value: 'GBR' },
   {
     variableId: 'DIM_BUILDDATE',
-    value: '2018-10-17T10:00:00.000Z'
-  }
+    value: '2018-10-17T10:00:00.000Z',
+  },
 ];
 ```
 
@@ -57,7 +57,7 @@ Additionally, the application assumes that:
 const BROCHURE_MODEL_VARIABLE_ID = 'BMOD';
 ```
 
-## 2. Change texts and images
+## Step 2 — Change texts and images
 
 ### Home page
 
@@ -80,7 +80,7 @@ const BM_SUB_TITLES = {
   BM_CHILD: 'From infancy to adolescence.',
   BM_INVISIBLE: 'Out of your way. On with your life.',
   BM_MAX: 'Maximum confidence. Minimum profile.',
-  BM_POWER: 'Dynamically adjusts to any situation.'
+  BM_POWER: 'Dynamically adjusts to any situation.',
 };
 ```
 
@@ -113,7 +113,7 @@ const descriptions = {
 
 :pencil2: Change `src/products/lib/descriptions.js` to add descriptions for your variables.
 
-## 3. Align section structure
+## Step 3 — Align section structure
 
 The iHear product has a section structure like this:
 
@@ -130,7 +130,6 @@ The iHear product has a section structure like this:
       id: "Style", variables: [...]
     }]
   }
-
 ]
 ```
 
@@ -141,13 +140,13 @@ a different section structure, you can change the sections returned from the
 
 ```javascript
 const sections = resp.sections
-  .filter(s => s.id !== 'Scope' && s.id !== 'General')
-  .map(s => s.sections[0]);
+  .filter((s) => s.id !== 'Scope' && s.id !== 'General')
+  .map((s) => s.sections[0]);
 
 return {
   brochureModel: getAssignedValue(getBrochureModelVariable(resp)),
   sections,
-  removedAssignments: resp.removedAssignments.variableAssignments
+  removedAssignments: resp.removedAssignments.variableAssignments,
 };
 ```
 
