@@ -62,12 +62,7 @@ export const BASE_LINE_HEIGHT = '24px';
 export const ASSET_URL =
   'https://clmcloudwebstorage.blob.core.windows.net/assets/v1';
 
-export const FONT_FAMILY_SANS_NAME = 'The Wave';
-export const FONT_FAMILY_SANS = `"${FONT_FAMILY_SANS_NAME}", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif`;
-
-export const FONT_PATH_REGULAR = `${ASSET_URL}/fonts/thewave-regular`;
-export const FONT_PATH_DEMIBOLD = `${ASSET_URL}/fonts/thewave-demibold`;
-export const FONT_PATH_BOLD = `${ASSET_URL}/fonts/thewave-bold`;
+export const FONT_FAMILY_SANS = `-apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif`;
 
 export const FONT_FAMILY_MONO =
   'Monaco, Consolas, Courier New, monospace, serif';

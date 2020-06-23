@@ -1,30 +1,36 @@
 import React from 'react';
 import * as theme from '../../components/theme';
+import { Link } from 'react-router-dom';
 
 function ProductCard({ bg, productId, title, subTitle }) {
   return (
-    <a href={`/products/${productId}`} className="card">
-      <div className="content">
-        {subTitle && <div className="subTitle">{subTitle}</div>}
-      </div>
-      <div className="titles">
-        {title && <div className="title">{title}</div>}
-      </div>
+    <div className="card">
+      <Link to={`/products/${productId}`} className="card-link">
+        <div className="content">
+          {subTitle && <div className="subTitle">{subTitle}</div>}
+        </div>
+        <div className="titles">
+          {title && <div className="title">{title}</div>}
+        </div>
+      </Link>
+
       <style jsx>{`
-        .card {
+        .card > :global(.card-link) {
           margin: 0 10px;
           border-radius: 2px;
         }
-        .card:first-child {
+        .card:first-child > :global(.card-link) {
           margin-left: 0;
         }
-        .card:last-child {
+        .card:last-child > :global(.card-link) {
           margin-right: 0;
         }
-        .card {
+        .card > :global(.card-link) {
           height: 300px;
           display: flex;
           flex-direction: column;
+        }
+        .card {
           flex: 1;
         }
         .content {
@@ -67,12 +73,12 @@ function ProductCard({ bg, productId, title, subTitle }) {
         }
 
         @media screen and (max-width: 800px) {
-          .card {
+          .card > :global(.card-link) {
             margin: 16px 0;
           }
         }
       `}</style>
-    </a>
+    </div>
   );
 }
 

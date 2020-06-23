@@ -2,34 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import * as theme from './theme';
 
-const fontFace = (family: string, weight: number, path: string) =>
-  `@font-face {
-  font-family: ${family};
-  font-weight: ${weight};
-  font-style: normal;
-
-  src: url('${path}.eot')   format('embedded-opentype');
-  src: url('${path}.woff2') format('woff2'),
-       url('${path}.woff')  format('woff');
-}`;
-
 export const globalStyleSheet = `
-  ${fontFace(
-    theme.FONT_FAMILY_SANS_NAME,
-    theme.FONT_WEIGHT_REGULAR,
-    theme.FONT_PATH_REGULAR
-  )}
-  ${fontFace(
-    theme.FONT_FAMILY_SANS_NAME,
-    theme.FONT_WEIGHT_DEMIBOLD,
-    theme.FONT_PATH_DEMIBOLD
-  )}
-  ${fontFace(
-    theme.FONT_FAMILY_SANS_NAME,
-    theme.FONT_WEIGHT_BOLD,
-    theme.FONT_PATH_BOLD
-  )}
-
   html {
     height: 100%;
     box-sizing: border-box;
@@ -736,7 +709,7 @@ class Head extends React.PureComponent<{
 
         <style
           dangerouslySetInnerHTML={{
-            __html: globalStyleSheet
+            __html: globalStyleSheet,
           }}
         />
       </>
