@@ -1,0 +1,98 @@
+:root {
+  --border-color: hsl(220, 22%, 89%);
+  --text-color: hsl(218, 96%, 10%);
+  --outline-color: hsl(218, 80%, 75%);
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+*:focus {
+  outline: 2px solid var(--outline-color);
+}
+
+.using-mouse *:focus {
+  outline: none;
+}
+
+.App {
+  width: 80%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.board {
+  position: relative;
+  padding: 40px;
+  display: grid;
+  grid-gap: 0;
+  grid-template-columns: repeat(8, 12.5%);
+  grid-template-rows: repeat(8, 12.5%);
+  grid-auto-flow: row;
+  background-image: url(./texture.jpg);
+  background-position: 0 0;
+  background-size: contain;
+}
+.col:after {
+  content: '';
+  display: block;
+  padding-bottom: 100%;
+}
+.row {
+  display: contents;
+}
+.col {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: hsl(218, 96%, 10%);
+  text-align: center;
+  border: none;
+  background-color: rgba(97, 73, 20, 0.7);
+}
+.using-mouse .col:focus {
+  outline: none;
+}
+.col:focus {
+  outline: 4px solid var(--outline-color);
+  outline-offset: -2px;
+  z-index: 1;
+}
+.row:nth-child(2n-1) > .col:nth-child(2n-1),
+.row:nth-child(2n) > .col:nth-child(2n) {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+.row.invalid {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.menu {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.progress {
+  font-size: 64px;
+  color: hsl(218, 96%, 10%);
+  display: flex;
+  align-items: center;
+}
+
+.button,
+.select {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--border-color);
+  background-color: white;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  font-weight: 600;
+  color: var(--text-color);
+  background-image: none;
+}
+
+.button:hover,
+.select:hover {
+  background-color: rgba(247, 250, 252);
+}
