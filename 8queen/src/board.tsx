@@ -30,15 +30,15 @@ function emptyBoard() {
 export function toggleQueen(
   board: BoardType,
   queens: Map<number, number>,
-  col: number,
-  row: number
+  row: number,
+  col: number
 ) {
   const newQueens = new Map(queens);
 
-  if (board[col][row] === CellType.User) {
-    newQueens.delete(col);
+  if (board[row][col] === CellType.User) {
+    newQueens.delete(row);
   } else {
-    newQueens.set(col, row);
+    newQueens.set(row, col);
   }
   return newQueens;
 }
