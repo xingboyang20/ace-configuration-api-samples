@@ -151,7 +151,7 @@ export default function App() {
   }
 
   async function handlePlaceHintQueen() {
-    const newQueens = toggleQueen(INITIAL_BOARD, new Map(), 4, 0);
+    const newQueens = toggleQueen(INITIAL_BOARD, new Map(), 3, 0);
     const newBoard = await placeQueens(newQueens, 'configurator');
 
     setUserQueens(newQueens);
@@ -180,7 +180,7 @@ export default function App() {
             {board.map((rv, col) => (
               <React.Fragment key={col}>
                 <div className="board-label" key={`start_label_${col}`}>
-                  {col + 1}
+                  {(col - 8) * -1}
                 </div>
                 <div className="row">
                   {rv.map((cv, row) => (
@@ -193,7 +193,7 @@ export default function App() {
                   ))}
                 </div>
                 <div className="board-label" key={`end_label_${col}`}>
-                  {col + 1}
+                  {(col - 8) * -1}
                 </div>
               </React.Fragment>
             ))}

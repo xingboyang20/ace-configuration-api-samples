@@ -22,7 +22,6 @@ function localFetch(payload: object) {
   headers.append('Accept', 'application/json');
   headers.append('Content-Type', 'application/json');
   headers.append('Access-Control-Allow-Origin', '*');
-  headers.append('Authorization', 'ApiKey ' + process.env.REACT_APP_API_KEY);
 
   const init = {
     method: 'POST',
@@ -34,7 +33,7 @@ function localFetch(payload: object) {
 
   const request = new Request(
     process.env.REACT_APP_API_URL +
-      '/configurator/v1/configure?packagePath=' +
+      '?packagePath=' +
       process.env.REACT_APP_PACKAGE_PATH,
     init
   );
