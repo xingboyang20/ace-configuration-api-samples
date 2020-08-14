@@ -162,47 +162,50 @@ export default function App() {
   return (
     <div className="App">
       <Welcome />
-      <div className="menu">
-        <Progress
-          user={userQueens.size}
-          rule={countQueensPlacedByRules(board)}
-        />
-        <ModesSelect
-          onSelect={(value, e) => {
-            handleModeChange(value);
-          }}
-          value={mode}
-        />
-        <button className="button" onClick={handleReset}>
-          Start Over
-        </button>
+      <div className="board-and-hints">
+        <div className="menu-board-progress">
+          <div className="menu">
+            <ModesSelect
+              onSelect={(value, e) => {
+                handleModeChange(value);
+              }}
+              value={mode}
+            />
+            <button className="button" onClick={handleReset}>
+              Start Over
+            </button>
+          </div>
+          <div className="board">
+            <ColumnNames />
+            {board.map((rv, col) => (
+              <React.Fragment key={col}>
+                <div className="board-label" key={`start_label_${col}`}>
+                  {col + 1}
+                </div>
+                <div className="row">
+                  {rv.map((cv, row) => (
+                    <Piece
+                      key={`${col}_${row}`}
+                      onClick={() => handleClick(col, row)}
+                      value={board[col][row]}
+                      mode={mode}
+                    />
+                  ))}
+                </div>
+                <div className="board-label" key={`end_label_${col}`}>
+                  {col + 1}
+                </div>
+              </React.Fragment>
+            ))}
+            <ColumnNames />
+          </div>
+          <Progress
+            user={userQueens.size}
+            rule={countQueensPlacedByRules(board)}
+          />
+        </div>
+        <Hints onPlaceQueen={handlePlaceHintQueen} />
       </div>
-      <div className="board">
-        <ColumnNames />
-        {board.map((rv, col) => (
-          <React.Fragment key={col}>
-            <div className="label" key={`start_label_${col}`}>
-              {col + 1}
-            </div>
-            <div className="row">
-              {rv.map((cv, row) => (
-                <Piece
-                  key={`${col}_${row}`}
-                  onClick={() => handleClick(col, row)}
-                  value={board[col][row]}
-                  mode={mode}
-                />
-              ))}
-            </div>
-            <div className="label" key={`end_label_${col}`}>
-              {col + 1}
-            </div>
-          </React.Fragment>
-        ))}
-        <ColumnNames />
-      </div>
-      <Hints onPlaceQueen={handlePlaceHintQueen} />
-
       <Footer />
     </div>
   );
@@ -211,16 +214,16 @@ export default function App() {
 function ColumnNames() {
   return (
     <>
-      <div className="label"></div>
-      <div className="label">A</div>
-      <div className="label">B</div>
-      <div className="label">C</div>
-      <div className="label">D</div>
-      <div className="label">E</div>
-      <div className="label">F</div>
-      <div className="label">G</div>
-      <div className="label">H</div>
-      <div className="label"></div>
+      <div className="board-label"></div>
+      <div className="board-label">A</div>
+      <div className="board-label">B</div>
+      <div className="board-label">C</div>
+      <div className="board-label">D</div>
+      <div className="board-label">E</div>
+      <div className="board-label">F</div>
+      <div className="board-label">G</div>
+      <div className="board-label">H</div>
+      <div className="board-label"></div>
     </>
   );
 }
@@ -279,13 +282,13 @@ function Footer() {
 
 function Welcome() {
   return (
-    <>
+    <div className="welcome">
       <h1>Eight queens game</h1>
-      <p>
+      <p className="lead">
         In this game, your goal is to place eight queens on the chessboard
         without any of the queens capturing each other.
       </p>
-    </>
+    </div>
   );
 }
 
@@ -293,24 +296,24 @@ function Hints({ onPlaceQueen }) {
   return (
     <div className="hints">
       <h2>You might be surprised…</h2>
-      <p className="no-lead">
+      <p>
         <button className="button" onClick={onPlaceQueen}>
           Place a <Queen width="20" height="12" /> on A5
         </button>
       </p>
-      <p className="no-lead">
+      <p>
         In Configurator mode, E6 becomes blocked! That’s because{' '}
         <strong>Configit’s Virtual Tabulation®</strong> configuration engine{' '}
         knows there are no solutions with queens on both A5 and E6. Even though
         it may look possible, no matter where you place the remaining queens,
         you will reach a dead end.
       </p>
-      <p className="no-lead">
+      <p>
         This demonstrates the power of using Configit’s VT technology.{' '}
         <strong>
           No more false leads, backtracking, or incompatible choices
         </strong>{' '}
-        — you are guided to a valid solution, every time
+        — you are guided to a valid solution, every time.
       </p>
 
       <p className="call-to-action">

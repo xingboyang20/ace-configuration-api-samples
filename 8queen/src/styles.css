@@ -25,41 +25,44 @@ body {
 }
 
 p {
-  text-indent: 2em;
   line-height: 1.5em;
 }
 
-p.no-lead {
-  text-indent: 0;
+p.lead {
+  text-indent: 1em;
 }
 
 h1 {
   font-size: 2em;
   line-height: 0.75em;
 }
-/* Fluid typography formula */
-@media (min-width: 100px) and (max-width: 1439px) {
-  body {
-    font-size: calc(12px + (23 - 12) * (100vw - 100px) / (1439 - 100));
-  }
-}
-
-/* Define max font size */
-@media (min-width: 1440px) {
-  body {
-    font-size: 23px;
-  }
-}
 
 .using-mouse *:focus {
   outline: none;
 }
+
 .App {
-  width: 80%;
-  max-width: 960px;
+  max-width: 1440px;
   margin: 0 auto;
 }
+
+.board-and-hints {
+  display: flex;
+}
+
+.menu-board-progress {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.welcome {
+  max-width: 700px;
+}
+
 .board {
+  flex: 1;
+  min-width: 600px;
   position: relative;
   display: grid;
   grid-gap: 0;
@@ -113,7 +116,7 @@ h1 {
   text-indent: 0;
 }
 
-.label {
+.board-label {
   text-align: center;
   align-self: stretch;
   vertical-align: middle;
@@ -137,7 +140,8 @@ h1 {
   color: hsl(218, 96%, 10%);
   display: flex;
   align-items: center;
-  flex: 1;
+  justify-self: flex-start;
+  margin-top: 12px;
 }
 
 .button,
@@ -243,18 +247,10 @@ label {
   white-space: nowrap;
 }
 
-dt {
-  font-weight: 600;
-}
-dl {
-  font-size: 0.85em;
-}
-dd {
-  line-height: 1.5;
-}
-
 .hints {
   font-size: 0.8em;
+  margin-left: 30px;
+  max-width: 500px;
 }
 
 .link-button {
@@ -268,27 +264,6 @@ dd {
   margin: 0;
   padding: 0;
   display: inline;
-}
-
-@media (max-width: 780px) {
-  .menu {
-    flex-direction: column;
-  }
-  .button,
-  .select {
-    margin: 4px 0;
-    padding: 0.25rem 0.5rem;
-    font-size: 14px;
-  }
-  .select {
-    background-position: calc(100% - 20px) calc(1em + 2px),
-      calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
-    background-size: 5px 5px, 5px 5px, 1px 1.2em;
-  }
-  .progress > svg {
-    width: 26px;
-    height: 22px;
-  }
 }
 
 footer {
@@ -309,4 +284,69 @@ footer {
 
 footer a {
   color: var(--text-color);
+}
+
+/* Fluid typography formula */
+@media (min-width: 100px) and (max-width: 1439px) {
+  body {
+    font-size: calc(12px + (23 - 12) * (100vw - 100px) / (1439 - 100));
+  }
+}
+
+/* Define max font size */
+@media (min-width: 1440px) {
+  body {
+    font-size: 23px;
+  }
+}
+
+@media (max-width: 1540px) {
+  .App {
+    width: 90%;
+  }
+  .board-label {
+    font-size: 0.6em;
+  }
+}
+
+@media (max-width: 1180px) {
+  .board-and-hints {
+    flex-direction: column;
+  }
+  .hints {
+    margin-left: 0;
+    max-width: inherit;
+  }
+  .board {
+    min-width: initial;
+  }
+  .board-label {
+    font-size: initial;
+  }
+}
+
+@media (max-width: 780px) {
+  .menu {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .button,
+  .select {
+    margin: 4px 0;
+    padding: 0.25rem 0.5rem;
+    font-size: 14px;
+  }
+  .select {
+    background-position: calc(100% - 20px) calc(1em + 2px),
+      calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+    background-size: 5px 5px, 5px 5px, 1px 1.2em;
+  }
+  .progress > svg {
+    width: 26px;
+    height: 22px;
+  }
+
+  .board-label {
+    font-size: 0.8em;
+  }
 }
