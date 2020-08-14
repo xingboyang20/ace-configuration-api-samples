@@ -3,7 +3,6 @@
   --text-color: hsl(218, 96%, 10%);
   --outline-color: hsl(218, 80%, 75%);
   --text-color: hsl(218, 96%, 10%);
-
   --label-size: 6%;
   --total-space-size: calc(100% - var(--label-size) * 2);
   --space-size: calc(var(--total-space-size) / 8);
@@ -142,6 +141,7 @@ h1 {
   align-items: center;
   justify-self: flex-start;
   margin-top: 12px;
+  margin-bottom: 50px;
 }
 
 .button,
@@ -322,6 +322,9 @@ footer a {
   }
   .board-label {
     font-size: initial;
+  }
+  .progress {
+    margin-bottom: 12px;
   }
 }
 
